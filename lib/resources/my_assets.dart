@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+
+var askQueIc = const AssetImage('assets/images/question_ic.png');
+var noInternetIc = const AssetImage('assets/images/no_internet_ic.png');
+var errorIc = const AssetImage('assets/images/error_ic.png');
+var noImage = const AssetImage('assets/images/no_img.png');
+var backArrow = const AssetImage('assets/images/back_arrow.png');
+var closeIc = const AssetImage('assets/images/close_ic.png');
+var artistIc = const AssetImage('assets/images/artist_ic.png');
+var facebookIc = const AssetImage('assets/images/facebook_ic.png');
+var instagramIc = const AssetImage('assets/images/instagram_ic.png');
+var upGovLogo = const AssetImage('assets/images/up_gov_logo.png');
+var userIc = const AssetImage('assets/images/user_ic.png');
+var youtubeIc = const AssetImage('assets/images/youtube_ic.png');
+var noProfilePic = const AssetImage('assets/images/no_profile_img.jpg');
+var profileDashImg = const AssetImage('assets/images/profile_dash_img.png');
+var newAdditionIc = const AssetImage('assets/images/new_addition_ic.png');
+var policiesIc = const AssetImage('assets/images/policies_ic.png');
+var aboutUsIc = const AssetImage('assets/images/about_us_ic.png');
+var logoutIc = const AssetImage('assets/images/logout_ic.png');
+var camerIc = const AssetImage('assets/images/camera_ic.png');
+var gradientDividerImg = const AssetImage('assets/images/gradient_divider.png');
+var allCategoryIc = const AssetImage('assets/images/all_categ_ic.png');
+var addFolderIc = const AssetImage('assets/images/add_folder_ic.png');
