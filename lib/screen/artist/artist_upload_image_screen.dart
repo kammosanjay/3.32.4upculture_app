@@ -186,11 +186,11 @@ class _ArtistUploadImageScreenState extends State<ArtistUploadImageScreen> {
     Get.dialog(const ProgressDialogWidget());
     getXController.croppedGalleryImageFile = await ImageCropper().cropImage(
       sourcePath: getXController.galleryImageFile!.path,
-      cropStyle: CropStyle.rectangle,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.original,
-      ],
+      // cropStyle: CropStyle.rectangle,
+      // aspectRatioPresets: [
+      //   CropAspectRatioPreset.square,
+      //   CropAspectRatioPreset.original,
+      // ],
       uiSettings: [
         AndroidUiSettings(
             toolbarTitle: 'Cropper',
@@ -204,11 +204,11 @@ class _ArtistUploadImageScreenState extends State<ArtistUploadImageScreen> {
         ),
         WebUiSettings(
             context: context,
-            boundary: CroppieBoundary(
-              height: (MediaQuery.of(context).size.height*0.5).toInt(),
-              width: (MediaQuery.of(context).size.width*0.6).toInt(),
+            // boundary: CroppieBoundary(
+            //   height: (MediaQuery.of(context).size.height*0.5).toInt(),
+            //   width: (MediaQuery.of(context).size.width*0.6).toInt(),
 
-            )
+            // )
         ),
       ],
     );

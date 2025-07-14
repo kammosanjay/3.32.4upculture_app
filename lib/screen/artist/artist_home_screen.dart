@@ -23,7 +23,8 @@ import 'package:file_picker/file_picker.dart';
 
 import 'package:upculture/controller/artist/artist_home_controller.dart';
 import 'package:upculture/local_database/my_shared_preference.dart';
-import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow, CarouselController;
+import 'package:flutter/material.dart'
+    hide BoxDecoration, BoxShadow, CarouselController;
 import 'package:upculture/resources/language.dart';
 import 'package:upculture/resources/my_assets.dart';
 import 'package:upculture/resources/my_color.dart';
@@ -51,7 +52,7 @@ class ArtistHomeScreen extends StatefulWidget {
   int? lang;
 
   ArtistHomeScreen({Key? key, required this.callFrom, this.lang})
-      : super(key: key);
+    : super(key: key);
 
   @override
   State<ArtistHomeScreen> createState() => _ArtistHomeScreenState();
@@ -151,7 +152,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         return null;
     }
   }
-//
+  //
   // double aniHeight = 20.0;
   // double aniWidth = 200;
   // Color aniColor = Colors.purple;
@@ -163,9 +164,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return WillPopScope(
       onWillPop: () async {
@@ -173,7 +174,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         return exitConfirmed; // true = exit app, false = stay in app
       },
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 243, 234, 230),
+        // backgroundColor: Color.fromARGB(255, 243, 234, 230),
+        backgroundColor: Colors.white,
+
         // floatingActionButton:
         //  Visibility(
         //   visible: MySharedPreference.getInt(KeyConstants.keyUserId) != null,
@@ -196,46 +199,49 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         //   // ),
         // ),
         // // backgroundColor: Color.fromRGBO(240, 239, 239, 1),
-
         endDrawer: ArtistEndDrawer(
-            callFrom: widget.callFrom, profileData: getXController.profileData),
+          callFrom: widget.callFrom,
+          profileData: getXController.profileData,
+        ),
+
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: MyColor.appColor,
+          surfaceTintColor: Colors.transparent,
           elevation: 0,
           title: Row(
             children: [
               Expanded(
-                  child: Row(
-                children: [
-                  Image(
-                    image: upGovLogo,
-                    height: 30.0,
-                    width: 30.0,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    // MyString.drawerTitle
-                    'drawerTitle'.tr,
-                    maxLines: 1,
-                    style: TextStyle(
+                child: Row(
+                  children: [
+                    Image(
+                      image: upGovLogo,
+                      height: 30.0,
+                      width: 30.0,
+                      color: MyColor.indiaWhite,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      // MyString.drawerTitle
+                      'drawerTitle'.tr,
+                      maxLines: 1,
+                      style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         color: Colors.white,
                         fontFamily: MyFont.roboto,
                         fontWeight: MyFontWeight.regular,
-                        fontSize: 20),
-                  ),
-                ],
-              )),
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               InkWell(
-                  onTap: () {
-                    Get.to(const SearchScreen(), transition: Transition.zoom);
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  )),
+                onTap: () {
+                  Get.to(const SearchScreen(), transition: Transition.zoom);
+                },
+                child: const Icon(Icons.search, color: Colors.white),
+              ),
             ],
           ),
         ),
@@ -274,8 +280,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                           : const SizedBox(),
                       getXController.heritageList.isNotEmpty
                           ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0,
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -292,13 +299,11 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                       getXController.externalList.isNotEmpty
                           ? externalLinks()
                           : const SizedBox(),
-                      const SizedBox(
-                        height: 10,
-                      )
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -321,56 +326,61 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
             itemCount: getXController.bannerList.length,
             itemBuilder: (context, index, position) {
               return InkWell(
-                  onTap: () {
-                    // Get.to(()  => BannerDetailScreen(bannerId: getXController.bannerList[index].id!,));
-                  },
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(6)), // Add border radius
-                    child: getXController.bannerList[index].photo != null &&
-                            getXController.bannerList[index].photo!.isNotEmpty
-                        ? CachedNetworkImage(
-                            imageUrl: getXController.bannerList[index].photo!,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(
-                                width: double.infinity,
-                                height: height * 0.22,
-                                color: Colors.white,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Image(
-                              image: noImage,
+                onTap: () {
+                  // Get.to(()  => BannerDetailScreen(bannerId: getXController.bannerList[index].id!,));
+                },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(6),
+                  ), // Add border radius
+                  child:
+                      getXController.bannerList[index].photo != null &&
+                          getXController.bannerList[index].photo!.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: getXController.bannerList[index].photo!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
                               width: double.infinity,
                               height: height * 0.22,
-                              fit: BoxFit.fill,
+                              color: Colors.white,
                             ),
-                          )
-                        : Image(
+                          ),
+                          errorWidget: (context, url, error) => Image(
                             image: noImage,
                             width: double.infinity,
                             height: height * 0.22,
                             fit: BoxFit.fill,
                           ),
-                  ));
+                        )
+                      : Image(
+                          image: noImage,
+                          width: double.infinity,
+                          height: height * 0.22,
+                          fit: BoxFit.fill,
+                        ),
+                ),
+              );
             },
             options: CarouselOptions(
-                enlargeFactor: 0.25,
-                viewportFraction: .9,
-                enlargeCenterPage: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(microseconds: 600),
-                autoPlay: getXController.bannerList.length != 1 ? true : false,
-                enableInfiniteScroll:
-                    getXController.bannerList.length != 1 ? true : false,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    currentPos = index;
-                  });
-                }),
+              enlargeFactor: 0.25,
+              viewportFraction: .9,
+              enlargeCenterPage: true,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayAnimationDuration: Duration(microseconds: 600),
+              autoPlay: getXController.bannerList.length != 1 ? true : false,
+              enableInfiniteScroll: getXController.bannerList.length != 1
+                  ? true
+                  : false,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  currentPos = index;
+                });
+              },
+            ),
           ),
         ),
         Positioned(
@@ -387,18 +397,21 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                 return Container(
                   width: 10.0,
                   height: 7.0,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 0.0,
+                    horizontal: 0,
+                  ),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color:
-                        currentPos == index ? MyColor.appColor : Colors.white,
+                    color: currentPos == index
+                        ? MyColor.appColor
+                        : Colors.white,
                   ),
                 );
               }).toList(),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -408,9 +421,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
   ///
   category() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         // margin: EdgeInsets.only(top: 20),
         // color: Colors.blue[50],
@@ -418,13 +429,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // getTitle(title:MyString.categories ),
-            const SizedBox(
-              height: 15.0,
-            ),
+            const SizedBox(height: 15.0),
             getTitle(title: 'categories'.tr),
-            const SizedBox(
-              height: 15.0,
-            ),
+            const SizedBox(height: 15.0),
             Container(
               // margin: EdgeInsets.all(5),
               // color: Colors.deepPurple[50],
@@ -434,13 +441,13 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4, // Number of columns
-                      crossAxisSpacing: 5, // Spacing between columns
-                      mainAxisSpacing: 0, // Spacing between rows
-                      childAspectRatio: 0.8,
-                      mainAxisExtent: 118
-                      // Aspect ratio for grid cells
-                      ),
+                    crossAxisCount: 4, // Number of columns
+                    crossAxisSpacing: 5, // Spacing between columns
+                    mainAxisSpacing: 0, // Spacing between rows
+                    childAspectRatio: 0.8,
+                    mainAxisExtent: 118,
+                    // Aspect ratio for grid cells
+                  ),
                   itemCount: getXController.categoryList.length > 8
                       ? 8
                       : getXController.categoryList.length,
@@ -453,21 +460,24 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                           print('सभी श्रेणी');
                           print('all :${category.id}');
                           Get.to(
-                              () => AllCategoryScreen(
-                                  callfrom: widget.callFrom,
-                                  categoryList: getXController.categoryList),
-                              transition: Transition.zoom);
+                            () => AllCategoryScreen(
+                              callfrom: widget.callFrom,
+                              categoryList: getXController.categoryList,
+                            ),
+                            transition: Transition.zoom,
+                          );
                         } else {
                           print('subcategory');
                           print('sub :${category.id}');
                           print(category.category);
                           Get.to(
-                              () => SubCategoryScreen(
-                                    categoryName: category.category!,
-                                    id: category.id!,
-                                    callFrom: widget.callFrom,
-                                  ),
-                              transition: Transition.zoom);
+                            () => SubCategoryScreen(
+                              categoryName: category.category!,
+                              id: category.id!,
+                              callFrom: widget.callFrom,
+                            ),
+                            transition: Transition.zoom,
+                          );
                         }
                       },
                       child: Column(
@@ -476,7 +486,6 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                         children: [
                           Container(
                             // height: 70,
-
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -484,23 +493,27 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                               // border: Border.all(color: MyColor.appColor, width: 1),
                               boxShadow: [
                                 BoxShadow(
-                                    color: MyColor.appColor,
-                                    blurRadius: 10,
-                                    inset: true,
-                                    offset: Offset(-2, -2)),
+                                  color: MyColor.appColor,
+                                  blurRadius: 10,
+                                  inset: true,
+                                  offset: Offset(-2, -2),
+                                ),
                                 // offset: offset),
                                 BoxShadow(
-                                    // color: Color.fromRGBO(239, 236, 236, 1),
-                                    color: MyColor.appColor40,
-                                    // blurRadius: 15,
-                                    inset: true,
-                                    offset: Offset(2, 2))
+                                  // color: Color.fromRGBO(239, 236, 236, 1),
+                                  color: MyColor.appColor40,
+                                  // blurRadius: 15,
+                                  inset: true,
+                                  offset: Offset(2, 2),
+                                ),
                               ],
                             ),
                             child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              child: category.photo != null &&
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              child:
+                                  category.photo != null &&
                                       category.photo!.isNotEmpty
                                   ? CachedNetworkImage(
                                       imageUrl: category.photo!,
@@ -509,41 +522,39 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                                       fit: BoxFit.cover,
                                       placeholder: (context, url) =>
                                           Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(
-                                          height: 50.0,
-                                          width: 50.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            baseColor: Colors.grey[300]!,
+                                            highlightColor: Colors.grey[100]!,
+                                            child: Container(
+                                              height: 50.0,
+                                              width: 50.0,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
                                       errorWidget: (context, url, error) =>
                                           Image(
-                                        image: noImage,
-                                        height: 50.0,
-                                        width: 50.0,
-                                      ),
+                                            image: noImage,
+                                            height: 50.0,
+                                            width: 50.0,
+                                          ),
                                     )
                                   : index == 0
-                                      ? Image(
-                                          image: allCategoryIc,
-                                          height: 50.0,
-                                          width: 50.0,
-                                        )
-                                      : Image(
-                                          image: noImage,
-                                          height: 50.0,
-                                          width: 50.0,
-                                        ),
+                                  ? Image(
+                                      image: allCategoryIc,
+                                      height: 50.0,
+                                      width: 50.0,
+                                    )
+                                  : Image(
+                                      image: noImage,
+                                      height: 50.0,
+                                      width: 50.0,
+                                    ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
+                          const SizedBox(height: 2.0),
                           Container(
                             width: 70,
                             padding: EdgeInsets.all(5),
@@ -566,7 +577,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                   },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -583,22 +594,25 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         child: AnimatedContainer(
           duration: Duration(seconds: 3),
           padding: EdgeInsets.all(2),
-          decoration: BoxDecoration(boxShadow: [
-            // BoxShadow(color: Colors.grey, blurRadius: 5, offset: Offset(3, 3)),
-            // BoxShadow(
-            //     // color: MyColor.appColor.withOpacity(0.5),
-            //     color: Colors.grey.shade400,
-            //     blurRadius: 2,
-            //     // inset: true,
-            //     offset: Offset(3, 3)),
-            // BoxShadow(
-            //     color: MyColor.appColor.withOpacity(0.1),
-            //     // color: Colors.grey.shade400,
-            //     blurRadius: 2,
-            //     //  inset: true,
-            //     //  spreadRadius: 10,
-            //     offset: Offset(-2, -2))
-          ], borderRadius: BorderRadius.circular(3)),
+          decoration: BoxDecoration(
+            boxShadow: [
+              // BoxShadow(color: Colors.grey, blurRadius: 5, offset: Offset(3, 3)),
+              // BoxShadow(
+              //     // color: MyColor.appColor.withOpacity(0.5),
+              //     color: Colors.grey.shade400,
+              //     blurRadius: 2,
+              //     // inset: true,
+              //     offset: Offset(3, 3)),
+              // BoxShadow(
+              //     color: MyColor.appColor.withOpacity(0.1),
+              //     // color: Colors.grey.shade400,
+              //     blurRadius: 2,
+              //     //  inset: true,
+              //     //  spreadRadius: 10,
+              //     offset: Offset(-2, -2))
+            ],
+            borderRadius: BorderRadius.circular(3),
+          ),
           child: Text(
             title,
             style: TextStyle(
@@ -630,14 +644,10 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           // getTitle(title: MyString.events),
           getTitle(title: 'events'.tr),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           Container(
             height: height * 0.15,
             // color: Colors.white,
@@ -647,8 +657,10 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                 var list = getXController.datewiseEventList[index];
                 return GestureDetector(
                   onTap: () {
-                    Get.to(() => CalendarTestScreen(lang: widget.lang),
-                        transition: Transition.zoom);
+                    Get.to(
+                      () => CalendarTestScreen(lang: widget.lang),
+                      transition: Transition.zoom,
+                    );
                     print("calenderScreen");
                   },
                   child: Container(
@@ -670,8 +682,9 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                         list.photo!,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(5),
+                          ),
                           child: Image.network(
                             getXController.datewiseEventList[index].coverPhoto!,
                             fit: BoxFit.cover,
@@ -687,12 +700,13 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
                 scrollPhysics: BouncingScrollPhysics(),
                 autoPlay: false,
                 enableInfiniteScroll: false,
-                viewportFraction:
-                    getXController.datewiseEventList.length == 1 ? 1.0 : 0.35,
+                viewportFraction: getXController.datewiseEventList.length == 1
+                    ? 1.0
+                    : 0.35,
                 enlargeCenterPage: getXController.datewiseEventList.length != 1,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -707,9 +721,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
           mainAxisSize: MainAxisSize.min,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             getTitle(title: 'events'.tr),
             // const SizedBox(
             //   height: 15,
@@ -718,55 +730,57 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
               height: height * 0.15,
               // color: Colors.white,
               child: CarouselSlider.builder(
-                  itemCount: imagePaths.length,
-                  itemBuilder: (context, index, realIndex) {
-                    return InkWell(
-                      onTap: () => Get.to(
-                          () => CalendarTestScreen(
-                                lang: widget.lang,
-                              ),
-                          transition: Transition.zoom),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.shade400,
-                                  blurRadius: 5,
-                                  offset: Offset(10, 10)),
-                              BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  blurRadius: 5,
-                                  offset: Offset(-3, -4))
-                            ],
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            // border: Border.all(
-                            //   color: MyColor.appColor,
-                            //   width: 1,
-                            // )
-                          ),
-                          child: Image.asset(
-                            imagePaths[index],
-                            fit: BoxFit.cover,
-                          ),
+                itemCount: imagePaths.length,
+                itemBuilder: (context, index, realIndex) {
+                  return InkWell(
+                    onTap: () => Get.to(
+                      () => CalendarTestScreen(lang: widget.lang),
+                      transition: Transition.zoom,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              blurRadius: 5,
+                              offset: Offset(10, 10),
+                            ),
+                            BoxShadow(
+                              color: Colors.grey.shade300,
+                              blurRadius: 5,
+                              offset: Offset(-3, -4),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          // border: Border.all(
+                          //   color: MyColor.appColor,
+                          //   width: 1,
+                          // )
+                        ),
+                        child: Image.asset(
+                          imagePaths[index],
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    );
-                  },
-                  options: CarouselOptions(
-                    viewportFraction: 0.35,
-                    enableInfiniteScroll: true,
-                    autoPlayAnimationDuration: Duration(seconds: 1),
-                    scrollPhysics: BouncingScrollPhysics(),
-                    aspectRatio: 1,
-                    autoPlay: false,
-                    height: 100,
-                  )),
-            )
+                    ),
+                  );
+                },
+                options: CarouselOptions(
+                  viewportFraction: 0.35,
+                  enableInfiniteScroll: true,
+                  autoPlayAnimationDuration: Duration(seconds: 1),
+                  scrollPhysics: BouncingScrollPhysics(),
+                  aspectRatio: 1,
+                  autoPlay: false,
+                  height: 100,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -783,135 +797,142 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         // mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           // getTitle(title: MyString.cultureHeritage),
           getTitle(title: 'cultureHeritage'.tr),
 
-          SizedBox(
-            height: 15,
-          ),
+          SizedBox(height: 15),
           Container(
             height: height * 0.18,
             width: double.infinity,
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: getXController.heritageList.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () async {
-                      Get.to(
-                          () => CultureHeritageDetailScreen(
-                                heritageId:
-                                    getXController.heritageList[index].id!,
+              scrollDirection: Axis.horizontal,
+              itemCount: getXController.heritageList.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () async {
+                    Get.to(
+                      () => CultureHeritageDetailScreen(
+                        heritageId: getXController.heritageList[index].id!,
+                      ),
+                      transition: Transition.zoom,
+                    );
+                    // Get.to(()  => ExternalDetailScreen(externalId: getXController.externalList[index].id!));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                blurRadius: 5,
+                                // inset: true,
+                                offset: Offset(3, 3),
                               ),
-                          transition: Transition.zoom);
-                      // Get.to(()  => ExternalDetailScreen(externalId: getXController.externalList[index].id!));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.shade600,
-                                      blurRadius: 5,
-                                      // inset: true,
-                                      offset: Offset(3, 3)),
-                                  BoxShadow(
-                                      color: MyColor.indiaWhite,
-                                      blurRadius: 1,
-                                      offset: Offset(-1, -1))
-                                ],
+                              BoxShadow(
                                 color: MyColor.indiaWhite,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5)),
-                              child: MyGlobal.checkNullData(getXController
-                                          .heritageList[index].photo)
-                                      .isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: getXController
-                                          .heritageList[index].photo!,
-                                      fit: BoxFit.cover,
-                                      height: height * 0.12,
-                                      width: width * 0.35,
-                                      placeholder: (context, url) =>
-                                          Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(
-                                          width: width * 0.33,
-                                          height: height * 0.18,
-                                          color: Colors.black,
+                                blurRadius: 1,
+                                offset: Offset(-1, -1),
+                              ),
+                            ],
+                            color: MyColor.indiaWhite,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                            ),
+                            child:
+                                MyGlobal.checkNullData(
+                                  getXController.heritageList[index].photo,
+                                ).isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: getXController
+                                        .heritageList[index]
+                                        .photo!,
+                                    fit: BoxFit.cover,
+                                    height: height * 0.12,
+                                    width: width * 0.35,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: width * 0.33,
+                                            height: height * 0.18,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image(
-                                        image: noImage,
-                                        width: width * 0.33,
-                                        height: height * 0.18,
-                                      ),
-                                    )
-                                  : Image(
+                                    errorWidget: (context, url, error) => Image(
                                       image: noImage,
                                       width: width * 0.33,
                                       height: height * 0.18,
                                     ),
-                            ),
+                                  )
+                                : Image(
+                                    image: noImage,
+                                    width: width * 0.33,
+                                    height: height * 0.18,
+                                  ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            height: height * 0.04,
-                            width: width * 0.35,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    // color: MyColor.appColor.withOpacity(0.5),
-                                    color: Colors.grey.shade400,
-                                    blurRadius: 2,
-                                    // inset: true,
-                                    offset: Offset(3, 3)),
-                                BoxShadow(
-                                    color: MyColor.appColor.withOpacity(0.1),
-                                    // color: Colors.grey.shade400,
-                                    blurRadius: 2,
-                                    //  inset: true,
-                                    //  spreadRadius: 10,
-                                    offset: Offset(-2, -2))
-                              ],
-                              // color: MyColor.indiaWhite,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(5),
-                                  bottomRight: Radius.circular(5)),
-                              color: MyColor.indiaWhite,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          height: height * 0.04,
+                          width: width * 0.35,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                // color: MyColor.appColor.withOpacity(0.5),
+                                color: Colors.grey.shade400,
+                                blurRadius: 2,
+                                // inset: true,
+                                offset: Offset(3, 3),
+                              ),
+                              BoxShadow(
+                                color: MyColor.appColor.withOpacity(0.1),
+                                // color: Colors.grey.shade400,
+                                blurRadius: 2,
+                                //  inset: true,
+                                //  spreadRadius: 10,
+                                offset: Offset(-2, -2),
+                              ),
+                            ],
+                            // color: MyColor.indiaWhite,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
                             ),
-                            child: Center(
-                              child: Text(
-                                MyGlobal.checkNullData(
-                                    getXController.heritageList[index].name),
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 27, 27, 27),
-                                    // color: Colors.green,
-                                    fontSize: 12,
-                                    fontFamily: MyFont.roboto,
-                                    fontWeight: MyFontWeight.bold),
+                            color: MyColor.indiaWhite,
+                          ),
+                          child: Center(
+                            child: Text(
+                              MyGlobal.checkNullData(
+                                getXController.heritageList[index].name,
+                              ),
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 27, 27, 27),
+                                // color: Colors.green,
+                                fontSize: 12,
+                                fontFamily: MyFont.roboto,
+                                fontWeight: MyFontWeight.bold,
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -929,9 +950,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           // getTitle(title: getXController.structureName),
           // getTitle(title: 'structureofUP'.tr),
           // const SizedBox(
@@ -959,32 +978,41 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
             child: InkWell(
               onTap: () {
                 Get.to(
-                    () => PdfxViewScreen(
-                        fileName: getXController.structurePDF.split("/").last,
-                        pdfUrl: getXController.structurePDF),
-                    transition: Transition.zoom);
+                  () => PdfxViewScreen(
+                    fileName: getXController.structurePDF.split("/").last,
+                    pdfUrl: getXController.structurePDF,
+                  ),
+                  transition: Transition.zoom,
+                );
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: MyGlobal.checkNullData(getXController.structureThumb)
-                        .isNotEmpty
+                child:
+                    MyGlobal.checkNullData(
+                      getXController.structureThumb,
+                    ).isNotEmpty
                     ? Image.network(
                         getXController.structureThumb,
                         fit: BoxFit.cover,
                         width: width * 0.28,
                         height: height * 0.15,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
+                        loadingBuilder:
+                            (
+                              BuildContext context,
+                              Widget child,
+                              ImageChunkEvent? loadingProgress,
+                            ) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                       )
                     : Image(
                         image: noImage,
@@ -1007,7 +1035,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
     List<String> images = [
       "assets/images/abhilekhgar-eng.jpg",
       "assets/images/puratatva-vibhag-eng.jpg",
-      "assets/images/sangrahalay-eng.jpg"
+      "assets/images/sangrahalay-eng.jpg",
     ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -1015,86 +1043,86 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         // mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           // getTitle(title: MyString.miscellaneousProgram),
           getTitle(title: 'office'.tr),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           Container(
             height: height * 0.126,
             child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                // padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemExtent: width * 0.4,
-                itemCount: getXController.miscList.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () async {
-                      // await getXController.getExternalDetails(externalId: getXController.externalList[index].id);
-                      // externalDetailsPopUp();
-                      Get.to(
-                          () => MiscSubScreen(
-                                id: getXController.miscList[index].id!,
-                                categoryName:
-                                    getXController.miscList[index].name!,
-                              ),
-                          transition: Transition.zoom);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            color: MyColor.indiaWhite,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.shade400,
-                                  blurRadius: 5,
-                                  offset: Offset(3, 4)),
-                              BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  blurRadius: 5,
-                                  offset: Offset(-1, -2))
-                            ],
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              // padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemExtent: width * 0.4,
+              itemCount: getXController.miscList.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () async {
+                    // await getXController.getExternalDetails(externalId: getXController.externalList[index].id);
+                    // externalDetailsPopUp();
+                    Get.to(
+                      () => MiscSubScreen(
+                        id: getXController.miscList[index].id!,
+                        categoryName: getXController.miscList[index].name!,
+                      ),
+                      transition: Transition.zoom,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        color: MyColor.indiaWhite,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            blurRadius: 5,
+                            offset: Offset(3, 4),
                           ),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: MyGlobal.checkNullData(
-                                          getXController.miscList[index].photo)
-                                      .isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: getXController
-                                              .miscList[index].photo!,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(
-                                          width: width * 0.38,
-                                          height: height * 0.125,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image(
-                                        image: noImage,
+                          BoxShadow(
+                            color: Colors.grey.shade300,
+                            blurRadius: 5,
+                            offset: Offset(-1, -2),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child:
+                            MyGlobal.checkNullData(
+                              getXController.miscList[index].photo,
+                            ).isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: getXController.miscList[index].photo!,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
                                         width: width * 0.38,
                                         height: height * 0.125,
+                                        color: Colors.white,
                                       ),
-                                    )
-                                  : Image(
-                                      image: noImage,
-                                      width: width * 0.38,
-                                      height: height * 0.125,
-                                    ))),
+                                    ),
+                                errorWidget: (context, url, error) => Image(
+                                  image: noImage,
+                                  width: width * 0.38,
+                                  height: height * 0.125,
+                                ),
+                              )
+                            : Image(
+                                image: noImage,
+                                width: width * 0.38,
+                                height: height * 0.125,
+                              ),
+                      ),
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -1111,9 +1139,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           // getTitle(title: getXController.radioName),
           // getTitle(title: 'radioJayGhosh'.tr),
           // const SizedBox(
@@ -1123,38 +1149,43 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
             height: height * 0.12,
             // width: 100,
             // margin: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
             child: InkWell(
               onTap: () {
                 Get.to(
-                    () => PdfxViewScreen(
-                        fileName: getXController.radioPDF.split("/").last,
-                        pdfUrl: getXController.radioPDF),
-                    transition: Transition.zoom);
+                  () => PdfxViewScreen(
+                    fileName: getXController.radioPDF.split("/").last,
+                    pdfUrl: getXController.radioPDF,
+                  ),
+                  transition: Transition.zoom,
+                );
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: MyGlobal.checkNullData(getXController.radioThumb)
-                        .isNotEmpty
+                child:
+                    MyGlobal.checkNullData(getXController.radioThumb).isNotEmpty
                     ? Image.network(
                         getXController.radioThumb,
                         fit: BoxFit.cover,
                         width: width * 0.28,
                         height: height * 0.15,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
+                        loadingBuilder:
+                            (
+                              BuildContext context,
+                              Widget child,
+                              ImageChunkEvent? loadingProgress,
+                            ) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                       )
                     : Image(
                         image: noImage,
@@ -1180,9 +1211,7 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           // getTitle(title: MyString.achievement),
           // getTitle(title: 'achievements'.tr),
           // const SizedBox(
@@ -1192,38 +1221,45 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
             height: height * 0.12,
             // width: 100,
             // margin: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
             child: InkWell(
               onTap: () {
                 Get.to(
-                    () => PdfxViewScreen(
-                        fileName: getXController.achievementPDF.split("/").last,
-                        pdfUrl: getXController.achievementPDF),
-                    transition: Transition.zoom);
+                  () => PdfxViewScreen(
+                    fileName: getXController.achievementPDF.split("/").last,
+                    pdfUrl: getXController.achievementPDF,
+                  ),
+                  transition: Transition.zoom,
+                );
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: MyGlobal.checkNullData(getXController.achievementThumb)
-                        .isNotEmpty
+                child:
+                    MyGlobal.checkNullData(
+                      getXController.achievementThumb,
+                    ).isNotEmpty
                     ? Image.network(
                         getXController.achievementThumb,
                         fit: BoxFit.cover,
                         width: width * 0.28,
                         height: height * 0.15,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
+                        loadingBuilder:
+                            (
+                              BuildContext context,
+                              Widget child,
+                              ImageChunkEvent? loadingProgress,
+                            ) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                       )
                     : Image(
                         image: noImage,
@@ -1249,133 +1285,141 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           // getTitle(title: MyString.externalLink),
           getTitle(title: 'externalLink'.tr),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
 
           Container(
             height: height * 0.18,
             width: double.infinity,
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: getXController.externalList.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () async {
-                      await getXController.getExternalDetails(
-                          externalId: getXController.externalList[index].id);
-                      print(getXController.externalList[index].id);
-                      externalDetailsPopUp();
-                      // Get.to(()  => ExternalDetailScreen(externalId: getXController.externalList[index].id!));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.shade600,
-                                      blurRadius: 5,
-                                      // inset: true,
-                                      offset: Offset(3, 3)),
-                                  BoxShadow(
-                                      color: MyColor.indiaWhite,
-                                      blurRadius: 1,
-                                      offset: Offset(-1, -1))
-                                ],
+              scrollDirection: Axis.horizontal,
+              itemCount: getXController.externalList.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () async {
+                    await getXController.getExternalDetails(
+                      externalId: getXController.externalList[index].id,
+                    );
+                    print(getXController.externalList[index].id);
+                    externalDetailsPopUp();
+                    // Get.to(()  => ExternalDetailScreen(externalId: getXController.externalList[index].id!));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                blurRadius: 5,
+                                // inset: true,
+                                offset: Offset(3, 3),
+                              ),
+                              BoxShadow(
                                 color: MyColor.indiaWhite,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5)),
-                              child: MyGlobal.checkNullData(getXController
-                                          .externalList[index].photo)
-                                      .isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: getXController
-                                          .externalList[index].photo!,
-                                      fit: BoxFit.cover,
-                                      height: height * 0.12,
-                                      width: width * 0.35,
-                                      placeholder: (context, url) =>
-                                          Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(
-                                          width: width * 0.33,
-                                          height: height * 0.18,
-                                          color: Colors.black,
+                                blurRadius: 1,
+                                offset: Offset(-1, -1),
+                              ),
+                            ],
+                            color: MyColor.indiaWhite,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                            ),
+                            child:
+                                MyGlobal.checkNullData(
+                                  getXController.externalList[index].photo,
+                                ).isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: getXController
+                                        .externalList[index]
+                                        .photo!,
+                                    fit: BoxFit.cover,
+                                    height: height * 0.12,
+                                    width: width * 0.35,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: width * 0.33,
+                                            height: height * 0.18,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image(
-                                        image: noImage,
-                                        width: width * 0.33,
-                                        height: height * 0.18,
-                                      ),
-                                    )
-                                  : Image(
+                                    errorWidget: (context, url, error) => Image(
                                       image: noImage,
                                       width: width * 0.33,
                                       height: height * 0.18,
                                     ),
-                            ),
+                                  )
+                                : Image(
+                                    image: noImage,
+                                    width: width * 0.33,
+                                    height: height * 0.18,
+                                  ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            height: height * 0.04,
-                            width: width * 0.35,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    // color: MyColor.appColor.withOpacity(0.5),
-                                    color: Colors.grey.shade400,
-                                    blurRadius: 2,
-                                    // inset: true,
-                                    offset: Offset(3, 3)),
-                                BoxShadow(
-                                    color: MyColor.appColor.withOpacity(0.1),
-                                    // color: Colors.grey.shade400,
-                                    blurRadius: 2,
-                                    //  inset: true,
-                                    //  spreadRadius: 10,
-                                    offset: Offset(-2, -2))
-                              ],
-                              // color: MyColor.indiaWhite,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(5),
-                                  bottomRight: Radius.circular(5)),
-                              color: MyColor.indiaWhite,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          height: height * 0.04,
+                          width: width * 0.35,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                // color: MyColor.appColor.withOpacity(0.5),
+                                color: Colors.grey.shade400,
+                                blurRadius: 2,
+                                // inset: true,
+                                offset: Offset(3, 3),
+                              ),
+                              BoxShadow(
+                                color: MyColor.appColor.withOpacity(0.1),
+                                // color: Colors.grey.shade400,
+                                blurRadius: 2,
+                                //  inset: true,
+                                //  spreadRadius: 10,
+                                offset: Offset(-2, -2),
+                              ),
+                            ],
+                            // color: MyColor.indiaWhite,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
                             ),
-                            child: Center(
-                              child: Text(
-                                MyGlobal.checkNullData(
-                                    getXController.externalList[index].name),
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 27, 27, 27),
-                                    // color: Colors.green,
-                                    fontSize: 12,
-                                    fontFamily: MyFont.roboto,
-                                    fontWeight: MyFontWeight.bold),
+                            color: MyColor.indiaWhite,
+                          ),
+                          child: Center(
+                            child: Text(
+                              MyGlobal.checkNullData(
+                                getXController.externalList[index].name,
+                              ),
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 27, 27, 27),
+                                // color: Colors.green,
+                                fontSize: 12,
+                                fontFamily: MyFont.roboto,
+                                fontWeight: MyFontWeight.bold,
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -1392,133 +1436,144 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           // getTitle(title: MyString.cultureProgram),
           getTitle(title: 'culturalEvent'.tr),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
 
           Container(
             height: height * 0.18,
             width: double.infinity,
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: getXController.cultureProgramList.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () async {
-                      Get.to(
-                          () => CultureDetailsScreen(
-                              id: getXController.cultureProgramList[index].id!),
-                          transition: Transition.zoom);
-                      // Get.to(()  => ExternalDetailScreen(externalId: getXController.externalList[index].id!));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.shade600,
-                                      blurRadius: 5,
-                                      // inset: true,
-                                      offset: Offset(3, 3)),
-                                  BoxShadow(
-                                      color: MyColor.indiaWhite,
-                                      blurRadius: 1,
-                                      offset: Offset(-1, -1))
-                                ],
+              scrollDirection: Axis.horizontal,
+              itemCount: getXController.cultureProgramList.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () async {
+                    Get.to(
+                      () => CultureDetailsScreen(
+                        id: getXController.cultureProgramList[index].id!,
+                      ),
+                      transition: Transition.zoom,
+                    );
+                    // Get.to(()  => ExternalDetailScreen(externalId: getXController.externalList[index].id!));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade600,
+                                blurRadius: 5,
+                                // inset: true,
+                                offset: Offset(3, 3),
+                              ),
+                              BoxShadow(
                                 color: MyColor.indiaWhite,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5)),
-                              child: MyGlobal.checkNullData(getXController
-                                          .cultureProgramList[index].image)
-                                      .isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: getXController
-                                          .cultureProgramList[index].image!,
-                                      fit: BoxFit.cover,
-                                      height: height * 0.12,
-                                      width: width * 0.35,
-                                      placeholder: (context, url) =>
-                                          Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(
-                                          width: width * 0.33,
-                                          height: height * 0.18,
-                                          color: Colors.black,
+                                blurRadius: 1,
+                                offset: Offset(-1, -1),
+                              ),
+                            ],
+                            color: MyColor.indiaWhite,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                            ),
+                            child:
+                                MyGlobal.checkNullData(
+                                  getXController
+                                      .cultureProgramList[index]
+                                      .image,
+                                ).isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: getXController
+                                        .cultureProgramList[index]
+                                        .image!,
+                                    fit: BoxFit.cover,
+                                    height: height * 0.12,
+                                    width: width * 0.35,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: width * 0.33,
+                                            height: height * 0.18,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image(
-                                        image: noImage,
-                                        width: width * 0.33,
-                                        height: height * 0.18,
-                                      ),
-                                    )
-                                  : Image(
+                                    errorWidget: (context, url, error) => Image(
                                       image: noImage,
                                       width: width * 0.33,
                                       height: height * 0.18,
                                     ),
-                            ),
+                                  )
+                                : Image(
+                                    image: noImage,
+                                    width: width * 0.33,
+                                    height: height * 0.18,
+                                  ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            height: height * 0.04,
-                            width: width * 0.35,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    // color: MyColor.appColor.withOpacity(0.5),
-                                    color: Colors.grey.shade400,
-                                    blurRadius: 2,
-                                    // inset: true,
-                                    offset: Offset(3, 3)),
-                                BoxShadow(
-                                    color: MyColor.appColor.withOpacity(0.1),
-                                    // color: Colors.grey.shade400,
-                                    blurRadius: 2,
-                                    //  inset: true,
-                                    //  spreadRadius: 10,
-                                    offset: Offset(-2, -2))
-                              ],
-                              // color: MyColor.indiaWhite,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(5),
-                                  bottomRight: Radius.circular(5)),
-                              color: MyColor.indiaWhite,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          height: height * 0.04,
+                          width: width * 0.35,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                // color: MyColor.appColor.withOpacity(0.5),
+                                color: Colors.grey.shade400,
+                                blurRadius: 2,
+                                // inset: true,
+                                offset: Offset(3, 3),
+                              ),
+                              BoxShadow(
+                                color: MyColor.appColor.withOpacity(0.1),
+                                // color: Colors.grey.shade400,
+                                blurRadius: 2,
+                                //  inset: true,
+                                //  spreadRadius: 10,
+                                offset: Offset(-2, -2),
+                              ),
+                            ],
+                            // color: MyColor.indiaWhite,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
                             ),
-                            child: Center(
-                              child: Text(
-                                MyGlobal.checkNullData(getXController
-                                    .cultureProgramList[index].name),
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 27, 27, 27),
-                                    // color: Colors.green,
-                                    fontSize: 12,
-                                    fontFamily: MyFont.roboto,
-                                    fontWeight: MyFontWeight.bold),
+                            color: MyColor.indiaWhite,
+                          ),
+                          child: Center(
+                            child: Text(
+                              MyGlobal.checkNullData(
+                                getXController.cultureProgramList[index].name,
+                              ),
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 27, 27, 27),
+                                // color: Colors.green,
+                                fontSize: 12,
+                                fontFamily: MyFont.roboto,
+                                fontWeight: MyFontWeight.bold,
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -1526,111 +1581,136 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
   }
 
   externalDetailsPopUp() {
-    Get.dialog(AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      titlePadding: EdgeInsets.zero,
-      clipBehavior: Clip.antiAlias,
-      insetPadding:
-          EdgeInsets.symmetric(horizontal: 20, vertical: height * 0.08),
-      contentPadding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
-      title: SingleChildScrollView(
-        child: Stack(children: [
-          MyGlobal.checkNullData(getXController.detail.value.photo).isNotEmpty
-              ? Image.network(
-                  getXController.detail.value.photo!,
-                  fit: BoxFit.cover,
-                  width: Get.width,
-                  height: height * 0.2,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        titlePadding: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+        insetPadding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: height * 0.05,
+        ),
+        contentPadding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
+        title: SingleChildScrollView(
+          child: Stack(
+            children: [
+              MyGlobal.checkNullData(
+                    getXController.detail.value.photo,
+                  ).isNotEmpty
+                  ? Image.network(
+                      getXController.detail.value.photo!,
+                      fit: BoxFit.cover,
+                      width: Get.width,
+                      height: height * 0.2,
+                      loadingBuilder:
+                          (
+                            BuildContext context,
+                            Widget child,
+                            ImageChunkEvent? loadingProgress,
+                          ) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                    )
+                  : Image(
+                      image: noImage,
+                      width: width * 0.3,
+                      height: height * 0.2,
+                    ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.pop(context);
                   },
-                )
-              : Image(
-                  image: noImage,
-                  width: width * 0.3,
-                  height: height * 0.2,
-                ),
-          Positioned(
-            right: 0,
-            top: 0,
-            child: MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                padding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100)),
-                minWidth: Get.width * 0.1,
-                splashColor: Theme.of(context).primaryColor,
-                highlightColor: Theme.of(context).primaryColorLight,
-                child: Container(
-                  height: Get.width * 0.06,
-                  width: Get.width * 0.06,
-                  decoration: BoxDecoration(
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  minWidth: Get.width * 0.1,
+                  splashColor: Theme.of(context).primaryColor,
+                  highlightColor: Theme.of(context).primaryColorLight,
+                  child: Container(
+                    height: Get.width * 0.06,
+                    width: Get.width * 0.06,
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.shade400,
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: const Offset(0, 1))
-                      ]),
-                  child: Icon(Icons.clear, size: Get.width * 0.06),
-                )),
-          ),
-        ]),
-      ),
-      content: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: MediaQuery.of(context).size.height * 0.3,
-            child: ListView(children: [
-              Html(
-                data: getXController.detail.value.description,
-                onLinkTap: (str, data, element) {
-                  print(str);
-                  launchUrl(Uri.parse(str!), mode: LaunchMode.inAppWebView);
-                },
+                          color: Colors.grey.shade400,
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: Icon(Icons.clear, size: Get.width * 0.06),
+                  ),
+                ),
               ),
-            ]),
+            ],
           ),
+        ),
+        content: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.height * 0.3,
+              child: ListView(
+                children: [
+                  Html(
+                    data: getXController.detail.value.description,
+                    onLinkTap: (str, data, element) {
+                      print(str);
+                      launchUrl(Uri.parse(str!), mode: LaunchMode.inAppWebView);
+                    },
+                  ),
+                ],
+              ),
+            ),
 
-          // Container(
-          //     height: 400,
-          //     child:
-          //         Text(getXController.detail.value.description.toString())),
-          GestureDetector(
-            onTap: () {
-              launchUrl(Uri.parse(getXController.detail.value.url!),
-                  mode: LaunchMode.inAppWebView);
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              child: Text(
-                MyString.viewMore,
-                style: TextStyle(
+            // Container(
+            //     height: 400,
+            //     child:
+            //         Text(getXController.detail.value.description.toString())),
+            GestureDetector(
+              onTap: () {
+                launchUrl(
+                  Uri.parse(getXController.detail.value.url!),
+                  mode: LaunchMode.inAppWebView,
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                child: Text(
+                  MyString.viewMore,
+                  style: TextStyle(
                     color: Colors.blue.shade800,
                     fontSize: width * 0.038,
                     fontFamily: MyFont.roboto,
                     fontWeight: MyFontWeight.bold,
-                    decoration: TextDecoration.underline),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Future<bool> showExitConfirmationDialog(BuildContext context) async {
@@ -1641,76 +1721,72 @@ class _ArtistHomeScreenState extends State<ArtistHomeScreen> {
           anchorPoint: Offset(-3, -4),
           builder: (BuildContext context) {
             return
-                //  AlertDialog(
-                //   // backgroundColor: MyColor.appColor,
-                //   title: Row(
-                //     children: [
-                //       Image.asset(
-                //         'assets/images/uplogo.png',
-                //         height: 30,
-                //       ),
-                //       SizedBox(
-                //         width: 10,
-                //       ),
-                //       Align(
-                //         alignment: Alignment.center,
-                //         child: const Text(
-                //           "संस्कृति विभाग,उ0प्र0",
-                //           style: TextStyle(color: MyColor.appColor),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                //   content: Container(
-                //     padding: EdgeInsets.all(5),
-                //     height: 60,
-                //     decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(5),
-                //         color: Colors.white),
-                //     child: Center(
-                //       child: const Text("Are you sure you want to quit the app?",
-                //           style: TextStyle(color: Colors.black)),
-                //     ),
-                //   ),
-                //   actions: [
-                //     TextButton(
-                //       onPressed: () =>
-                //           Navigator.of(context).pop(false), // Stay in app
-                //       child: Container(
-                //         height: 30,
-                //         width: 100,
-                //         decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(5),
-                //             color: MyColor.appColor),
-                //         child: Center(
-                //             child: const Text("NO",
-                //                 style: TextStyle(color: Colors.white))),
-                //       ),
-                //     ),
-                //     TextButton(
-                //       onPressed: () => Navigator.of(context).pop(true), // Exit app
-                //       child: Container(
-                //         height: 30,
-                //         width: 100,
-                //         decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(5),
-                //             color: MyColor.appColor),
-                //         child: Center(
-                //           child: const Text("YES",
-                //               style: TextStyle(color: Colors.white)),
-                //         ),
-                //       ),
-                //     )
-
-                //   ],
-                // );
-                AlertDialog(
+            //  AlertDialog(
+            //   // backgroundColor: MyColor.appColor,
+            //   title: Row(
+            //     children: [
+            //       Image.asset(
+            //         'assets/images/uplogo.png',
+            //         height: 30,
+            //       ),
+            //       SizedBox(
+            //         width: 10,
+            //       ),
+            //       Align(
+            //         alignment: Alignment.center,
+            //         child: const Text(
+            //           "संस्कृति विभाग,उ0प्र0",
+            //           style: TextStyle(color: MyColor.appColor),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            //   content: Container(
+            //     padding: EdgeInsets.all(5),
+            //     height: 60,
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(5),
+            //         color: Colors.white),
+            //     child: Center(
+            //       child: const Text("Are you sure you want to quit the app?",
+            //           style: TextStyle(color: Colors.black)),
+            //     ),
+            //   ),
+            //   actions: [
+            //     TextButton(
+            //       onPressed: () =>
+            //           Navigator.of(context).pop(false), // Stay in app
+            //       child: Container(
+            //         height: 30,
+            //         width: 100,
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(5),
+            //             color: MyColor.appColor),
+            //         child: Center(
+            //             child: const Text("NO",
+            //                 style: TextStyle(color: Colors.white))),
+            //       ),
+            //     ),
+            //     TextButton(
+            //       onPressed: () => Navigator.of(context).pop(true), // Exit app
+            //       child: Container(
+            //         height: 30,
+            //         width: 100,
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(5),
+            //             color: MyColor.appColor),
+            //         child: Center(
+            //           child: const Text("YES",
+            //               style: TextStyle(color: Colors.white)),
+            //         ),
+            //       ),
+            //     )
+            //   ],
+            // );
+            AlertDialog(
               title: Row(
                 children: [
-                  Image.asset(
-                    'assets/images/uplogo.png',
-                    height: 30,
-                  ),
+                  Image.asset('assets/images/uplogo.png', height: 30),
                   SizedBox(width: 10),
                   Align(
                     alignment: Alignment.center,

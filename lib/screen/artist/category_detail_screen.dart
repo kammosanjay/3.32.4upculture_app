@@ -26,13 +26,13 @@ class CategoryDetailScreen extends StatefulWidget {
 
   int id;
 
-  CategoryDetailScreen(
-      {Key? key,
-      required this.getXController,
-      required this.index,
-      this.fromSearch = false,
-      this.id = -1})
-      : super(key: key);
+  CategoryDetailScreen({
+    Key? key,
+    required this.getXController,
+    required this.index,
+    this.fromSearch = false,
+    this.id = -1,
+  }) : super(key: key);
 
   @override
   State<CategoryDetailScreen> createState() => _CategoryDetailScreenState();
@@ -65,14 +65,16 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
     getXController.subCategoryGalleryList.clear();
     // setState(() {});
     await getXController.getSubCategoryGallery(
-        subCategoryId: widget.fromSearch
-            ? widget.id
-            : getXController.subCategoryList[index].id);
+      subCategoryId: widget.fromSearch
+          ? widget.id
+          : getXController.subCategoryList[index].id,
+    );
     // setState(() {});
     await getXController.getSubCategoryDetail(
-        subCategoryId: widget.fromSearch
-            ? widget.id
-            : getXController.subCategoryList[index].id);
+      subCategoryId: widget.fromSearch
+          ? widget.id
+          : getXController.subCategoryList[index].id,
+    );
     setState(() {});
   }
 
@@ -81,52 +83,59 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColor.appColor,
+          surfaceTintColor: Colors.transparent,
           elevation: 0,
           leadingWidth: 30,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              clearAllDetail();
+              Get.back();
+            },
+          ),
           title: Row(
             children: [
               Expanded(
-                  child: Row(
-                children: [
-                  Image(
-                    image: upGovLogo,
-                    height: 30.0,
-                    width: 30.0,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      // MyString.drawerTitle
-                      'drawerTitle'.tr,
-                      maxLines: 1,
-                      style: TextStyle(
+                child: Row(
+                  children: [
+                    Image(
+                      image: upGovLogo,
+                      height: 30.0,
+                      width: 30.0,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        // MyString.drawerTitle
+                        'drawerTitle'.tr,
+                        maxLines: 1,
+                        style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           color: Colors.white,
                           fontFamily: MyFont.roboto,
                           fontWeight: MyFontWeight.regular,
-                          fontSize: 20),
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
               InkWell(
-                  onTap: () {
-                    Get.to(const SearchScreen());
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ))
+                onTap: () {
+                  Get.to(const SearchScreen());
+                },
+                child: const Icon(Icons.search, color: Colors.white),
+              ),
             ],
           ),
         ),
@@ -140,47 +149,49 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      children: [
-                        Text('Text Size'),
-                        Container(
-                          width: 150,
-                          child: Slider(
-                            value: fontSize.value,
-                            min: 14.0, // Minimum font size
-                            max: 25.0, // Maximum font size
-                            divisions: 30, // Optional, for smooth stepping
-                            label: fontSize.value.toStringAsFixed(1),
-                            onChanged: (value) {
-                              fontSize.value = value;
-                            },
-                          ),
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    children: [
+                      Text('Text Size'),
+                      Container(
+                        width: 150,
+                        child: Slider(
+                          value: fontSize.value,
+                          min: 14.0, // Minimum font size
+                          max: 25.0, // Maximum font size
+                          divisions: 30, // Optional, for smooth stepping
+                          label: fontSize.value.toStringAsFixed(1),
+                          onChanged: (value) {
+                            fontSize.value = value;
+                          },
                         ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Expanded(
                 child: ScrollConfiguration(
                   behavior: ScrollBehavior(),
                   child: ListView(
                     children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      MyGlobal.checkNullData(getXController
-                                  .subCategoryData.value.description)
-                              .isNotEmpty
+                      const SizedBox(height: 10),
+                      MyGlobal.checkNullData(
+                            getXController.subCategoryData.value.description,
+                          ).isNotEmpty
                           ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0,
+                              ),
                               child: Html(
                                 data:
                                     '${getXController.subCategoryData.value.description}',
                                 onLinkTap: (str, data, element) {
                                   // print(str);
-                                  launchUrl(Uri.parse(str!),
-                                      mode: LaunchMode.inAppWebView);
+                                  launchUrl(
+                                    Uri.parse(str!),
+                                    mode: LaunchMode.inAppWebView,
+                                  );
                                 },
                                 style: {
                                   'body': Style(
@@ -191,11 +202,11 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                 },
                               ),
                             )
-                          : const SizedBox()
+                          : const SizedBox(),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -222,31 +233,40 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   itemBuilder: (context, index, position) {
                     return ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(6)),
-                      child: getXController
-                                      .subCategoryGalleryList[index].photo !=
+                      child:
+                          getXController.subCategoryGalleryList[index].photo !=
                                   null &&
-                              getXController.subCategoryGalleryList[index]
-                                  .photo!.isNotEmpty
+                              getXController
+                                  .subCategoryGalleryList[index]
+                                  .photo!
+                                  .isNotEmpty
                           ? Image.network(
                               getXController
-                                  .subCategoryGalleryList[index].photo!,
+                                  .subCategoryGalleryList[index]
+                                  .photo!,
                               fit: BoxFit.cover,
                               width: double.infinity,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
+                              loadingBuilder:
+                                  (
+                                    BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress,
+                                  ) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value:
+                                            loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
                             )
                           : Image(
                               image: noImage,
@@ -257,22 +277,22 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                     );
                   },
                   options: CarouselOptions(
-                      enlargeFactor: 0.2,
-                      viewportFraction: 0.85,
-                      enlargeCenterPage: true,
-                      autoPlay:
-                          getXController.subCategoryGalleryList.length != 1
-                              ? true
-                              : false,
-                      enableInfiniteScroll:
-                          getXController.subCategoryGalleryList.length != 1
-                              ? true
-                              : false,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          currentPos = index;
-                        });
-                      }),
+                    enlargeFactor: 0.2,
+                    viewportFraction: 0.85,
+                    enlargeCenterPage: true,
+                    autoPlay: getXController.subCategoryGalleryList.length != 1
+                        ? true
+                        : false,
+                    enableInfiniteScroll:
+                        getXController.subCategoryGalleryList.length != 1
+                        ? true
+                        : false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentPos = index;
+                      });
+                    },
+                  ),
                 ),
               ),
             ],
@@ -288,8 +308,10 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
               return Container(
                 width: 15.0,
                 height: 7.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                margin: const EdgeInsets.symmetric(
+                  vertical: 0.0,
+                  horizontal: 0,
+                ),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: currentPos == index
@@ -299,7 +321,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
               );
             }).toList(),
           ),
-        )
+        ),
       ],
     );
   }

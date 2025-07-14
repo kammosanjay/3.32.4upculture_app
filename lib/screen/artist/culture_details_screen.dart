@@ -1,4 +1,3 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter/services.dart';
@@ -17,10 +16,7 @@ import '../../controller/artist/artist_home_controller.dart';
 class CultureDetailsScreen extends StatefulWidget {
   int id;
 
-  CultureDetailsScreen({
-    Key? key,
-    required this.id,
-  }) : super(key: key);
+  CultureDetailsScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   State<CultureDetailsScreen> createState() => _CultureDetailsScreenState();
@@ -72,43 +68,51 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyColor.appColor,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
-        leadingWidth: 30,
+        // leadingWidth: 30,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         title: Row(
           children: [
             Expanded(
-                child: Row(
-              children: [
-                Image(
-                  image: upGovLogo,
-                  height: 30.0,
-                  width: 30.0,
-                  color: Colors.white,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    // MyString.drawerTitle
-                    'drawerTitle'.tr,
-                    maxLines: 1,
-                    style: TextStyle(
+              child: Row(
+                children: [
+                  Image(
+                    image: upGovLogo,
+                    height: 30.0,
+                    width: 30.0,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      // MyString.drawerTitle
+                      'drawerTitle'.tr,
+                      maxLines: 1,
+                      style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         color: Colors.white,
                         fontFamily: MyFont.roboto,
                         fontWeight: MyFontWeight.regular,
-                        fontSize: 20),
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              ),
+            ),
             //
             // const Icon(
             //   Icons.search,
@@ -128,33 +132,32 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      children: [
-                        Text('Text Size'),
-                        Container(
-                          width: 150,
-                          child: Slider(
-                            value: fontSize.value,
-                            min: 14.0, // Minimum font size
-                            max: 25.0, // Maximum font size
-                            divisions: 30, // Optional, for smooth stepping
-                            label: fontSize.value.toStringAsFixed(1),
-                            onChanged: (value) {
-                              fontSize.value = value;
-                            },
-                          ),
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    children: [
+                      Text('Text Size'),
+                      Container(
+                        width: 150,
+                        child: Slider(
+                          value: fontSize.value,
+                          min: 14.0, // Minimum font size
+                          max: 25.0, // Maximum font size
+                          divisions: 30, // Optional, for smooth stepping
+                          label: fontSize.value.toStringAsFixed(1),
+                          onChanged: (value) {
+                            fontSize.value = value;
+                          },
                         ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               if (getXController.cultureDetailsData != null)
                 Expanded(
                   child: ListView(
                     children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Row(
@@ -162,21 +165,22 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
                             Expanded(
                               child: Text(
                                 MyGlobal.checkNullData(
-                                    getXController.cultureDetailsData!.name),
+                                  getXController.cultureDetailsData!.name,
+                                ),
                                 style: TextStyle(
-                                    color: MyColor.color1F140A,
-                                    fontFamily: MyFont.roboto,
-                                    fontWeight: MyFontWeight.semiBold,
-                                    fontSize: fontSize.value),
+                                  color: MyColor.color1F140A,
+                                  fontFamily: MyFont.roboto,
+                                  fontWeight: MyFontWeight.semiBold,
+                                  fontSize: fontSize.value,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
 
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
+
                       // Text(
                       //   MyGlobal.checkNullData(getXController.aboutUsData!.description),
                       //   textAlign: TextAlign.start,
@@ -187,20 +191,22 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
                       //       fontSize: 14
                       //   ),
                       // )
-
                       MyGlobal.checkNullData(
-                                  getXController.cultureDetailsData!.content)
-                              .isNotEmpty
+                            getXController.cultureDetailsData!.content,
+                          ).isNotEmpty
                           ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0,
+                              ),
                               child: Html(
                                 data:
                                     '${getXController.cultureDetailsData!.content}',
                                 onLinkTap: (str, data, element) {
                                   print(str);
-                                  launchUrl(Uri.parse(str!),
-                                      mode: LaunchMode.inAppWebView);
+                                  launchUrl(
+                                    Uri.parse(str!),
+                                    mode: LaunchMode.inAppWebView,
+                                  );
                                 },
                                 style: {
                                   'body': Style(
@@ -212,10 +218,10 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
                                 },
                               ),
                             )
-                          : const SizedBox()
+                          : const SizedBox(),
                     ],
                   ),
-                )
+                ),
             ],
           ),
         ),
@@ -242,31 +248,42 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
                   itemBuilder: (context, index, position) {
                     return ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(6)),
-                      child: getXController
-                                      .cultureProgramSliderData[index].photo !=
+                      child:
+                          getXController
+                                      .cultureProgramSliderData[index]
+                                      .photo !=
                                   null &&
-                              getXController.cultureProgramSliderData[index]
-                                  .photo!.isNotEmpty
+                              getXController
+                                  .cultureProgramSliderData[index]
+                                  .photo!
+                                  .isNotEmpty
                           ? Image.network(
                               getXController
-                                  .cultureProgramSliderData[index].photo!,
+                                  .cultureProgramSliderData[index]
+                                  .photo!,
                               fit: BoxFit.cover,
                               width: double.infinity,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
+                              loadingBuilder:
+                                  (
+                                    BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress,
+                                  ) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value:
+                                            loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
                             )
                           : Image(
                               image: noImage,
@@ -277,22 +294,23 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
                     );
                   },
                   options: CarouselOptions(
-                      enlargeFactor: 0.2,
-                      viewportFraction: 0.85,
-                      enlargeCenterPage: true,
-                      autoPlay:
-                          getXController.cultureProgramSliderData.length != 1
-                              ? true
-                              : false,
-                      enableInfiniteScroll:
-                          getXController.cultureProgramSliderData.length != 1
-                              ? true
-                              : false,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          currentPos = index;
-                        });
-                      }),
+                    enlargeFactor: 0.2,
+                    viewportFraction: 0.85,
+                    enlargeCenterPage: true,
+                    autoPlay:
+                        getXController.cultureProgramSliderData.length != 1
+                        ? true
+                        : false,
+                    enableInfiniteScroll:
+                        getXController.cultureProgramSliderData.length != 1
+                        ? true
+                        : false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentPos = index;
+                      });
+                    },
+                  ),
                 ),
               ),
             ],
@@ -308,8 +326,10 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
               return Container(
                 width: 15.0,
                 height: 7.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                margin: const EdgeInsets.symmetric(
+                  vertical: 0.0,
+                  horizontal: 0,
+                ),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: currentPos == index
@@ -319,7 +339,7 @@ class _CultureDetailsScreenState extends State<CultureDetailsScreen> {
               );
             }).toList(),
           ),
-        )
+        ),
       ],
     );
   }

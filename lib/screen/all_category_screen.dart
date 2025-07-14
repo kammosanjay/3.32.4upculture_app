@@ -27,7 +27,7 @@ class AllCategoryScreen extends StatefulWidget {
   List<Data> categoryList;
   String? callfrom;
   AllCategoryScreen({Key? key, required this.categoryList, this.callfrom})
-      : super(key: key);
+    : super(key: key);
 
   @override
   State<AllCategoryScreen> createState() => _AllCategoryScreenState();
@@ -58,9 +58,9 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return Obx(() {
       print("=======?" + widget.callfrom.toString());
@@ -70,52 +70,52 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
         //     callFrom: widget.callfrom,
         //     profileData: artistHomeController.profileData),
         appBar: AppBar(
-          actions: [
-            Container(
-              height: 50,
-              width: 100,
-              child: language(),
-            )
-          ],
+          backgroundColor: MyColor.appColor,
+          surfaceTintColor: Colors.transparent,
+          actions: [Container(height: 50, width: 50, child: language())],
           elevation: 0,
-          leadingWidth: 30,
+          // leadingWidth: 30,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Get.back();
+            },
+          ),
           title: Row(
             children: [
               Expanded(
-                  child: Row(
-                children: [
-                  Image(
-                    image: upGovLogo,
-                    height: 30.0,
-                    width: 30.0,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      // MyString.drawerTitle
-                      'drawerTitle'.tr,
-                      maxLines: 1,
-                      style: TextStyle(
+                child: Row(
+                  children: [
+                    Image(
+                      image: upGovLogo,
+                      height: 30.0,
+                      width: 30.0,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        // MyString.drawerTitle
+                        'drawerTitle'.tr,
+                        maxLines: 1,
+                        style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           color: Colors.white,
                           fontFamily: MyFont.roboto,
                           fontWeight: MyFontWeight.regular,
-                          fontSize: 20),
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
               InkWell(
-                  onTap: () {
-                    Get.to(const SearchScreen());
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  )),
+                onTap: () {
+                  Get.to(const SearchScreen());
+                },
+                child: const Icon(Icons.search, color: Colors.white),
+              ),
               // SizedBox(
               //   width: 20,
               // ),
@@ -125,7 +125,6 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
         body: ListView(
           children: [
             categoryList.isNotEmpty ? categoryListWidget() : const SizedBox(),
-   
           ],
         ),
       );
@@ -142,23 +141,21 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
         child: LayoutGrid(
           gridFit: GridFit.expand,
 
-          columnSizes: [
-            1.fr,
-            1.fr,
-            1.fr,
-          ],
+          columnSizes: [1.fr, 1.fr, 1.fr],
           // columnSizes: [
           // (width * 0.26).px,
           // (width * 0.26).px,
           // (width * 0.26).px
           // ],
           rowSizes: List<IntrinsicContentTrackSize>.generate(
-              (categoryList.length), (int index) => auto),
+            (categoryList.length),
+            (int index) => auto,
+          ),
           columnGap: 10,
           rowGap: 10,
           children: [
             // user -1 into category.length to remove Artist category
-            for (var index = 1; index < categoryList.length-1; index++)
+            for (var index = 1; index < categoryList.length - 1; index++)
               InkWell(
                 onTap: () async {
                   if (categoryList[index].id.toString() == "18") {
@@ -168,23 +165,31 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                   } else if (categoryList[index].id.toString() == "31") {
                     print('test2');
                     print('SubCategoryId :${categoryList[index].id!}');
-                    Get.to(() => ArtistCategoryScreen(
+                    Get.to(
+                      () => ArtistCategoryScreen(
                         categoryName: categoryList[index].category!,
-                        id: categoryList[index].id!));
+                        id: categoryList[index].id!,
+                      ),
+                    );
                   } else if (categoryList[index].id.toString() == "82") {
                     print('test3');
                     print('SubCategoryId :${categoryList[index].id!}');
-                    Get.to(() => ArtistCategoryScreen(
+                    Get.to(
+                      () => ArtistCategoryScreen(
                         categoryName: categoryList[index].category!,
-                        id: categoryList[index].id!));
+                        id: categoryList[index].id!,
+                      ),
+                    );
                   } else {
                     print('SubCategoryId :${categoryList[index].id!}');
                     print('test4');
-                    Get.to(() => SubCategoryScreen(
-                          categoryName: categoryList[index].category!,
-                          id: categoryList[index].id!,
-                          callFrom: widget.callfrom,
-                        ));
+                    Get.to(
+                      () => SubCategoryScreen(
+                        categoryName: categoryList[index].category!,
+                        id: categoryList[index].id!,
+                        callFrom: widget.callfrom,
+                      ),
+                    );
                   }
                 },
                 child: SizedBox(
@@ -201,23 +206,27 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                  color: Colors.grey.shade400,
-                                  blurRadius: 5,
-                                  //  inset: true,
-                                  offset: Offset(2, 3)),
+                                color: Colors.grey.shade400,
+                                blurRadius: 5,
+                                //  inset: true,
+                                offset: Offset(2, 3),
+                              ),
                               BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  blurRadius: 1,
-                                  inset: true,
-                                  offset: Offset(-2, -3))
+                                color: Colors.grey.shade300,
+                                blurRadius: 1,
+                                inset: true,
+                                offset: Offset(-2, -3),
+                              ),
                             ],
                             // border:
                             //     Border.all(color: MyColor.appColor, width: 1)
                           ),
                           child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            child: categoryList[index].photo != null &&
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            child:
+                                categoryList[index].photo != null &&
                                     categoryList[index].photo!.isNotEmpty
                                 ? CachedNetworkImage(
                                     imageUrl: categoryList[index].photo!,
@@ -225,18 +234,18 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                                     width: 33.0,
                                     placeholder: (context, url) =>
                                         Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(
-                                        height: 36.0,
-                                        width: 33.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            height: 36.0,
+                                            width: 33.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
                                     errorWidget: (context, url, error) => Image(
                                       image: noImage,
                                       height: 36.0,
@@ -251,24 +260,23 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
+                      const SizedBox(height: 5.0),
                       Container(
                         child: Text(
                           categoryList[index].category!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 12,
-                              color: MyColor.color4F4C4C,
-                              fontFamily: MyFont.roboto,
-                              fontWeight: MyFontWeight.bold),
+                            fontSize: 12,
+                            color: MyColor.color4F4C4C,
+                            fontFamily: MyFont.roboto,
+                            fontWeight: MyFontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              )
+              ),
           ],
         ),
       ),
@@ -282,47 +290,49 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
           flex: 1,
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-                value: selectedLanguage,
-                style: const TextStyle(color: Colors.white), //
-                dropdownColor: MyColor.appColor.withOpacity(0.5),
-                // icon: Icon(
-                //   Icons.arrow_downward,
-                //   color: Colors.white,
-                //   size: 20,
-                // ),
-                icon: SizedBox.shrink(),
-                alignment: Alignment.center,
-                items: languages.map((lang) {
-                  return DropdownMenuItem<String>(
-                    value: lang['value'],
-                    child: Text(
-                      lang['label']!,
-                      style: TextStyle(color: Colors.white),
-                    ),
+              value: selectedLanguage,
+              style: const TextStyle(color: Colors.white), //
+              dropdownColor: MyColor.appColor,
+              // icon: Icon(
+              //   Icons.arrow_downward,
+              //   color: Colors.white,
+              //   size: 20,
+              // ),
+              icon: SizedBox.shrink(),
+              alignment: Alignment.center,
+              items: languages.map((lang) {
+                return DropdownMenuItem<String>(
+                  value: lang['value'],
+                  child: Text(
+                    lang['label']!,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              }).toList(),
+              onChanged: (String? newValue) async {
+                if (newValue != null) {
+                  setState(() {
+                    selectedLanguage = newValue;
+                    MyLangCode.langcode = (newValue == 'en') ? 2 : 1;
+                  });
+
+                  artistHomeController.getCategoriesData(
+                    langCode: MyLangCode.langcode,
                   );
-                }).toList(),
-                onChanged: (String? newValue) async {
-                  if (newValue != null) {
-                    setState(() {
-                      selectedLanguage = newValue;
-                      MyLangCode.langcode = (newValue == 'en') ? 2 : 1;
-                    });
 
-                    artistHomeController.getCategoriesData(
-                        langCode: MyLangCode.langcode);
+                  Locale newLocale = (newValue == 'en')
+                      ? const Locale('en', 'US')
+                      : const Locale('hi', 'IN');
 
-                    Locale newLocale = (newValue == 'en')
-                        ? const Locale('en', 'US')
-                        : const Locale('hi', 'IN');
+                  await MySharedPreference().saveLocale(newLocale);
+                  Get.updateLocale(newLocale);
 
-                    await MySharedPreference().saveLocale(newLocale);
-                    Get.updateLocale(newLocale);
-
-                    print('Selected Language: $newValue');
-                  }
-                }),
+                  print('Selected Language: $newValue');
+                }
+              },
+            ),
           ),
-        )
+        ),
       ],
     );
   }

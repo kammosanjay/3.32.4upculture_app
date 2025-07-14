@@ -52,61 +52,51 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyColor.appColor,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         leadingWidth: 30,
         title: Row(
           children: [
             Expanded(
-                child: Row(
-              children: [
-                Image(
-                  image: upGovLogo,
-                  height: 30.0,
-                  width: 30.0,
-                  color: Colors.white,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child:  Text(
+              child: Row(
+                children: [
+                  Image(
+                    image: upGovLogo,
+                    height: 30.0,
+                    width: 30.0,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
                       // MyString.drawerTitle
                       'drawerTitle'.tr,
                       maxLines: 1,
                       style: TextStyle(
                         overflow: TextOverflow.ellipsis,
-                          color: Colors.white,
-                          fontFamily: MyFont.roboto,
-                          fontWeight: MyFontWeight.regular,
-                          fontSize: 20),
+                        color: Colors.white,
+                        fontFamily: MyFont.roboto,
+                        fontWeight: MyFontWeight.regular,
+                        fontSize: 20,
+                      ),
                     ),
-                ),
-              ],
-            )),
-            InkWell(
-                onTap: () {
-                  Get.to(const SearchScreen());
-                },
-                child: const Icon(
-                  Icons.search,
-                  color: Colors.white,
-                )),
-            const SizedBox(
-              width: 15,
+                  ),
+                ],
+              ),
             ),
-            Image.asset(
-              'assets/images/Vector.png',
-              height: 12,
-              width: 16,
-            )
+            InkWell(
+              onTap: () {
+                Get.to(const SearchScreen());
+              },
+              child: const Icon(Icons.search, color: Colors.white),
+            ),
+            const SizedBox(width: 15),
+            Image.asset('assets/images/Vector.png', height: 12, width: 16),
           ],
         ),
       ),
-      body: Column(
-        children: [
-          detailEventInfo(),
-        ],
-      ),
+      body: Column(children: [detailEventInfo()]),
     );
   }
 
@@ -117,13 +107,14 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
           CachedNetworkImage(
             imageUrl: widget.event!.photo.toString(),
             errorWidget: (context, url, error) => ClipRRect(
-                child: Image.asset(
-              'assets/images/no_img.png',
-              scale: 1,
-              height: MediaQuery.of(context).size.height * 0.2,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-            )),
+              child: Image.asset(
+                'assets/images/no_img.png',
+                scale: 1,
+                height: MediaQuery.of(context).size.height * 0.2,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
             imageBuilder: (context, imageProvider) => ClipRRect(
               child: Image(
                 image: imageProvider,
@@ -137,7 +128,8 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
 
           // Title Section
           Visibility(
-            visible: widget.event!.ayojakName != null &&
+            visible:
+                widget.event!.ayojakName != null &&
                 widget.event!.ayojakName!.trim().isNotEmpty,
             replacement: SizedBox(),
             child: Container(
@@ -146,9 +138,10 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 widget.event!.eventName.toString(),
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ),
@@ -156,11 +149,7 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
           // Organizer Info
           Container(
             padding: const EdgeInsets.all(12.0),
-            margin: EdgeInsets.only(
-              bottom: 15,
-              left: 20,
-              right: 20,
-            ),
+            margin: EdgeInsets.only(bottom: 15, left: 20, right: 20),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(8.0),
@@ -177,22 +166,21 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
-                      style: ButtonStyle(
-                          fixedSize: MaterialStatePropertyAll(Size(0, 40))),
-                      onPressed: () async {
-                        const url =
-                            'https://in.bookmyshow.com/'; // BookMyShow link
-                        if (await canLaunchUrl(Uri.parse(url))) {
-                          await launchUrl(Uri.parse(url));
-                        } else {
-                          print("Could not launch $url");
-                        }
-                      },
-                      child: Text(
-                        "Book",
-                        style: TextStyle(fontSize: 14),
-                      )),
-                )
+                    style: ButtonStyle(
+                      fixedSize: MaterialStatePropertyAll(Size(0, 40)),
+                    ),
+                    onPressed: () async {
+                      const url =
+                          'https://in.bookmyshow.com/'; // BookMyShow link
+                      if (await canLaunchUrl(Uri.parse(url))) {
+                        await launchUrl(Uri.parse(url));
+                      } else {
+                        print("Could not launch $url");
+                      }
+                    },
+                    child: Text("Book", style: TextStyle(fontSize: 14)),
+                  ),
+                ),
               ],
             ),
           ),
@@ -205,11 +193,7 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(
-              top: 21.0,
-              left: 20,
-              right: 20,
-            ),
+            padding: const EdgeInsets.only(top: 21.0, left: 20, right: 20),
             child: Column(
               children: [
                 Row(
@@ -217,8 +201,11 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                   children: [
                     Row(
                       children: [
-                        Image.asset('assets/images/calenderImage.png',
-                            height: 15, width: 15),
+                        Image.asset(
+                          'assets/images/calenderImage.png',
+                          height: 15,
+                          width: 15,
+                        ),
                         SizedBox(width: 10.0),
                         Text(
                           "${'startDateofEvent'.tr} | ${widget.event!.startDate.toString()}",
@@ -227,22 +214,30 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                       ],
                     ),
                     InkWell(
-                        onTap: () {
-                          Share.share(widget.event!.addressMapLink.toString());
-                        },
-                        child: Image.asset("assets/images/share.png",
-                            height: 30, width: 30))
+                      onTap: () {
+                        Share.share(widget.event!.addressMapLink.toString());
+                      },
+                      child: Image.asset(
+                        "assets/images/share.png",
+                        height: 30,
+                        width: 30,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10.0),
                 Visibility(
-                  visible: widget.event!.eventTime != null &&
+                  visible:
+                      widget.event!.eventTime != null &&
                       widget.event!.eventTime!.trim().isNotEmpty,
                   replacement: SizedBox(),
                   child: Row(
                     children: [
-                      Image.asset('assets/images/timingImage.png',
-                          height: 15, width: 15),
+                      Image.asset(
+                        'assets/images/timingImage.png',
+                        height: 15,
+                        width: 15,
+                      ),
                       SizedBox(width: 10.0),
                       Text(
                         "${widget.event!.eventTime.toString()} | ${widget.event!.eventDay}",
@@ -253,61 +248,71 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 ),
                 const SizedBox(height: 10.0),
                 Visibility(
-                  visible: widget.event!.address != null &&
+                  visible:
+                      widget.event!.address != null &&
                       widget.event!.address!.trim().isNotEmpty,
                   replacement: SizedBox(),
                   child: InkWell(
-                      onTap: () {
-                        launchUrl(
-                            Uri.parse(widget.event!.addressMapLink.toString()));
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset('assets/images/CalenderLocationIcon.png',
-                              height: 15, width: 15),
-                          SizedBox(width: 10.0),
-                          Expanded(
-                            flex: 8,
-                            child: Text(
-                              "${widget.event!.address.toString()}",
-                              style: TextStyle(fontSize: 16.0),
-                            ),
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse(widget.event!.addressMapLink.toString()),
+                      );
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/CalenderLocationIcon.png',
+                          height: 15,
+                          width: 15,
+                        ),
+                        SizedBox(width: 10.0),
+                        Expanded(
+                          flex: 8,
+                          child: Text(
+                            "${widget.event!.address.toString()}",
+                            style: TextStyle(fontSize: 16.0),
                           ),
-                          Image(
-                            image: AssetImage('assets/images/LocImg.png'),
-                            height: 20,
-                          )
-                        ],
-                      )),
+                        ),
+                        Image(
+                          image: AssetImage('assets/images/LocImg.png'),
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16.0),
               ],
             ),
           ),
           Visibility(
-            visible: widget.event!.address != null &&
+            visible:
+                widget.event!.address != null &&
                 widget.event!.address!.trim().isNotEmpty,
             replacement: SizedBox(),
             child: Divider(
-                indent: 20,
-                endIndent: 20,
-                height: 0,
-                thickness: 1,
-                color: Colors.grey),
+              indent: 20,
+              endIndent: 20,
+              height: 0,
+              thickness: 1,
+              color: Colors.grey,
+            ),
           ),
           // Event Details
 
           // Description Section
           Visibility(
-            visible: widget.event!.about != null &&
+            visible:
+                widget.event!.about != null &&
                 widget.event!.about!.trim().isNotEmpty,
             replacement: SizedBox(),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.2,
               margin: EdgeInsets.only(top: 15, left: 20, right: 20, bottom: 20),
-              child:
-                  SingleChildScrollView(child: Html(data: widget.event!.about)),
+              child: SingleChildScrollView(
+                child: Html(data: widget.event!.about),
+              ),
             ),
           ),
         ],
@@ -323,13 +328,14 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
           CachedNetworkImage(
             imageUrl: dfgdfg.photo.toString(),
             errorWidget: (context, url, error) => ClipRRect(
-                child: Image.asset(
-              'assets/images/no_img.png',
-              scale: 1,
-              height: MediaQuery.of(context).size.height * 0.2,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-            )),
+              child: Image.asset(
+                'assets/images/no_img.png',
+                scale: 1,
+                height: MediaQuery.of(context).size.height * 0.2,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
             imageBuilder: (context, imageProvider) => ClipRRect(
               child: Image(
                 image: imageProvider,
@@ -348,20 +354,17 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
               dfgdfg.eventName.toString(),
               maxLines: 1,
               style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis),
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
 
           // Organizer Info
           Container(
             padding: const EdgeInsets.all(12.0),
-            margin: EdgeInsets.only(
-              bottom: 15,
-              left: 20,
-              right: 20,
-            ),
+            margin: EdgeInsets.only(bottom: 15, left: 20, right: 20),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(8.0),
@@ -380,17 +383,16 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(
-              top: 21.0,
-              left: 20,
-              right: 20,
-            ),
+            padding: const EdgeInsets.only(top: 21.0, left: 20, right: 20),
             child: Column(
               children: [
                 Row(
                   children: [
-                    Image.asset('assets/images/calenderImage.png',
-                        height: 15, width: 15),
+                    Image.asset(
+                      'assets/images/calenderImage.png',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 10.0),
                     Text(
                       "आयोजन की आरंभ तिथि | ${dfgdfg.startDate.toString()}",
@@ -401,8 +403,11 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 const SizedBox(height: 10.0),
                 Row(
                   children: [
-                    Image.asset('assets/images/timingImage.png',
-                        height: 15, width: 15),
+                    Image.asset(
+                      'assets/images/timingImage.png',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 10.0),
                     Text(
                       "${dfgdfg.eventTime.toString()} | ${dfgdfg.eventDay}",
@@ -413,8 +418,11 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 const SizedBox(height: 10.0),
                 Row(
                   children: [
-                    Image.asset('assets/images/sandTimeImg.png',
-                        height: 15, width: 15),
+                    Image.asset(
+                      'assets/images/sandTimeImg.png',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 10.0),
                     Text(
                       "${dfgdfg.totalTime.toString()}",
@@ -425,8 +433,11 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 const SizedBox(height: 10.0),
                 Row(
                   children: [
-                    Image.asset('assets/images/CalenderAgeIcon.png',
-                        height: 15, width: 15),
+                    Image.asset(
+                      'assets/images/CalenderAgeIcon.png',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 10.0),
                     Text(
                       "${dfgdfg.ageLimit.toString()}",
@@ -437,8 +448,11 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 const SizedBox(height: 10.0),
                 Row(
                   children: [
-                    Image.asset('assets/images/CalenderLangIcon.png',
-                        height: 15, width: 15),
+                    Image.asset(
+                      'assets/images/CalenderLangIcon.png',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 10.0),
                     Text(
                       "${dfgdfg.language.toString()}",
@@ -450,8 +464,11 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset('assets/images/CalenderLocationIcon.png',
-                        height: 15, width: 15),
+                    Image.asset(
+                      'assets/images/CalenderLocationIcon.png',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 10.0),
                     Expanded(
                       flex: 8,
@@ -462,10 +479,11 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
                     ),
                     IconButton(
                       onPressed: () => launchUrl(
-                          Uri.parse(dfgdfg.addressMapLink.toString())),
+                        Uri.parse(dfgdfg.addressMapLink.toString()),
+                      ),
                       icon: Icon(Icons.map_rounded),
                       tooltip: "Get Location",
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16.0),
@@ -473,25 +491,27 @@ class _CalenderEventDetailPageState extends State<CalenderEventDetailPage> {
             ),
           ),
           Divider(
-              indent: 20,
-              endIndent: 20,
-              height: 0,
-              thickness: 1,
-              color: Colors.grey),
+            indent: 20,
+            endIndent: 20,
+            height: 0,
+            thickness: 1,
+            color: Colors.grey,
+          ),
           // Event Details
 
           // Description Section
           Container(
             height: MediaQuery.of(context).size.height * 0.2,
             margin: EdgeInsets.only(top: 15, left: 20, right: 20, bottom: 20),
-            child: SingleChildScrollView(child: Html(data: dfgdfg.about)
-                //  Text(
-                //   "${widget.event!.about.toString()}",
-                //   style: TextStyle(
-                //     fontSize: 14.0,
-                //   ),
-                // ),
-                ),
+            child: SingleChildScrollView(
+              child: Html(data: dfgdfg.about),
+              //  Text(
+              //   "${widget.event!.about.toString()}",
+              //   style: TextStyle(
+              //     fontSize: 14.0,
+              //   ),
+              // ),
+            ),
           ),
         ],
       ),

@@ -24,7 +24,7 @@ class ArtistCategoryScreen extends StatefulWidget {
   String categoryName;
 
   ArtistCategoryScreen({Key? key, required this.categoryName, required this.id})
-      : super(key: key);
+    : super(key: key);
 
   @override
   State<ArtistCategoryScreen> createState() => _ArtistCategoryScreenState();
@@ -124,43 +124,51 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: MyColor.appColor,
+        surfaceTintColor: Colors.transparent,
         leadingWidth: 30,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         elevation: 0,
         title: Row(
           children: [
             Expanded(
-                child: Row(
-              children: [
-                Image(
-                  image: upGovLogo,
-                  height: 30.0,
-                  width: 30.0,
-                  color: Colors.white,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    'drawerTitle'.tr,
-                    maxLines: 1,
-                    style: TextStyle(
+              child: Row(
+                children: [
+                  Image(
+                    image: upGovLogo,
+                    height: 30.0,
+                    width: 30.0,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'drawerTitle'.tr,
+                      maxLines: 1,
+                      style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         color: Colors.white,
                         fontFamily: MyFont.roboto,
                         fontWeight: MyFontWeight.regular,
-                        fontSize: 20),
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -195,9 +203,10 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
             ),
             const SizedBox(height: 10),
             Expanded(
-                child: currentUserId == ""
-                    ? artistCategoryWithoutLogin()
-                    : artistCategory()),
+              child: currentUserId == ""
+                  ? artistCategoryWithoutLogin()
+                  : artistCategory(),
+            ),
           ],
         ),
       ),
@@ -236,10 +245,11 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
           onTap: () {
             print(filteredData[index]['user_id']);
             Get.to(
-                () => ArtistCategoryDetailsScreen(
-                      id: filteredData[index]['user_id'],
-                    ),
-                transition: Transition.zoom);
+              () => ArtistCategoryDetailsScreen(
+                id: filteredData[index]['user_id'],
+              ),
+              transition: Transition.zoom,
+            );
           },
           child: Padding(
             padding: const EdgeInsets.only(left: 1.0, right: 1),
@@ -250,13 +260,15 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.shade400,
-                      blurRadius: 5,
-                      offset: Offset(2, 3)),
+                    color: Colors.grey.shade400,
+                    blurRadius: 5,
+                    offset: Offset(2, 3),
+                  ),
                   BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 5,
-                      offset: Offset(-2, -3))
+                    color: Colors.grey.shade300,
+                    blurRadius: 5,
+                    offset: Offset(-2, -3),
+                  ),
                 ],
               ),
               child: Column(
@@ -278,10 +290,7 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
                         borderRadius: BorderRadius.circular(100),
                         child: CircleAvatar(
                           radius: 50,
-                          child: Icon(
-                            Icons.person,
-                            size: 80,
-                          ),
+                          child: Icon(Icons.person, size: 80),
                         ),
                       ),
                       placeholder: (context, url) => ClipRRect(
@@ -352,11 +361,12 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 15,
-          childAspectRatio: 3,
-          mainAxisExtent: 160),
+        crossAxisCount: 3,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 15,
+        childAspectRatio: 3,
+        mainAxisExtent: 160,
+      ),
       itemBuilder: (context, index) {
         if (index == displayedData.length) {
           return const Center(child: CircularProgressIndicator());
@@ -365,10 +375,11 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
         return GestureDetector(
           onTap: () {
             Get.to(
-                () => ArtistCategoryDetailsScreen(
-                      id: displayedData[index]['user_id'],
-                    ),
-                transition: Transition.zoom);
+              () => ArtistCategoryDetailsScreen(
+                id: displayedData[index]['user_id'],
+              ),
+              transition: Transition.zoom,
+            );
           },
           child: Padding(
             padding: const EdgeInsets.only(left: 1.0, right: 1),
@@ -381,7 +392,7 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
                   colors: [
                     Color.fromARGB(255, 245, 207, 169),
                     Colors.white,
-                    Color.fromARGB(255, 203, 237, 204)
+                    Color.fromARGB(255, 203, 237, 204),
                   ],
                   tileMode: TileMode.mirror,
                   begin: Alignment.topLeft,
@@ -390,13 +401,15 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.grey.shade400,
-                      blurRadius: 5,
-                      offset: Offset(2, 3)),
+                    color: Colors.grey.shade400,
+                    blurRadius: 5,
+                    offset: Offset(2, 3),
+                  ),
                   BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 5,
-                      offset: Offset(-2, -3))
+                    color: Colors.grey.shade300,
+                    blurRadius: 5,
+                    offset: Offset(-2, -3),
+                  ),
                 ],
               ),
               child: Column(
@@ -418,10 +431,7 @@ class _ArtistCategoryScreenState extends State<ArtistCategoryScreen> {
                         borderRadius: BorderRadius.circular(100),
                         child: CircleAvatar(
                           radius: 50,
-                          child: Icon(
-                            Icons.person,
-                            size: 80,
-                          ),
+                          child: Icon(Icons.person, size: 80),
                         ),
                       ),
                       placeholder: (context, url) => ClipRRect(

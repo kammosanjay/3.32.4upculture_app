@@ -20,12 +20,12 @@ class CultureSubCategoryScreen extends StatefulWidget {
   String? cultureCategoryName;
   CategoryController getXController;
 
-  CultureSubCategoryScreen(
-      {Key? key,
-      this.cultureCategoryName,
-      required this.cultureCategoryId,
-      required this.getXController})
-      : super(key: key);
+  CultureSubCategoryScreen({
+    Key? key,
+    this.cultureCategoryName,
+    required this.cultureCategoryId,
+    required this.getXController,
+  }) : super(key: key);
 
   @override
   State<CultureSubCategoryScreen> createState() => _CultureSubCategoryScreen();
@@ -44,7 +44,8 @@ class _CultureSubCategoryScreen extends State<CultureSubCategoryScreen> {
 
     Future.delayed(const Duration(), () {
       getXController.getCultureSubCategoriesData(
-          cultureCategoryId: widget.cultureCategoryId);
+        cultureCategoryId: widget.cultureCategoryId,
+      );
     });
   }
 
@@ -53,20 +54,28 @@ class _CultureSubCategoryScreen extends State<CultureSubCategoryScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColor.appColor,
+          surfaceTintColor: Colors.transparent,
           leadingWidth: 30,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Get.back();
+            },
+          ),
           title: Row(
             children: [
               Expanded(
-                  child: Row(
-                children: [
-                  /*Image(
+                child: Row(
+                  children: [
+                    /*Image(
                         image: backArrow,
                         height: 24.0,
                         width: 24.0,
@@ -74,50 +83,48 @@ class _CultureSubCategoryScreen extends State<CultureSubCategoryScreen> {
                       ),
 */
 
-                  // const SizedBox(width: 10,),
-                  Image(
-                    image: upGovLogo,
-                    height: 30.0,
-                    width: 30.0,
-                    color: Colors.white,
-                  ),
+                    // const SizedBox(width: 10,),
+                    Image(
+                      image: upGovLogo,
+                      height: 30.0,
+                      width: 30.0,
+                      color: Colors.white,
+                    ),
 
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child:  Text(
-                      // MyString.drawerTitle
-                      'drawerTitle'.tr,
-                      maxLines: 1,
-                      style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        // MyString.drawerTitle
+                        'drawerTitle'.tr,
+                        maxLines: 1,
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: Colors.white,
                           fontFamily: MyFont.roboto,
                           fontWeight: MyFontWeight.regular,
-                          fontSize: 20),
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
               InkWell(
-                  onTap: () {
-                    Get.to(const SearchScreen());
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ))
+                onTap: () {
+                  Get.to(const SearchScreen());
+                },
+                child: const Icon(Icons.search, color: Colors.white),
+              ),
             ],
           ),
         ),
         body: SingleChildScrollView(
           child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-              child: getXController.cultureSubCategoryList.isNotEmpty
-                  ? cultureSubCategoryWidget()
-                  : const SizedBox()),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+            child: getXController.cultureSubCategoryList.isNotEmpty
+                ? cultureSubCategoryWidget()
+                : const SizedBox(),
+          ),
         ),
       );
     });
@@ -134,29 +141,37 @@ class _CultureSubCategoryScreen extends State<CultureSubCategoryScreen> {
           LayoutGrid(
             columnSizes: [1.fr, 1.fr],
             rowSizes: List<IntrinsicContentTrackSize>.generate(
-                (getXController.cultureSubCategoryList.length / 2).round(),
-                (int index) => auto),
+              (getXController.cultureSubCategoryList.length / 2).round(),
+              (int index) => auto,
+            ),
             rowGap: 10,
             columnGap: 10,
             children: [
-              for (var index = 0;
-                  index < getXController.cultureSubCategoryList.length;
-                  index++)
+              for (
+                var index = 0;
+                index < getXController.cultureSubCategoryList.length;
+                index++
+              )
                 InkWell(
                   onTap: () {
                     /*Get.to(() => CultureSubCategoryDetailScreen(
                         cultureSubCategoryId: getXController.cultureSubCategoryList[index].id!,
                         getXController: getXController));*/
 
-                    Get.to(() => CultureSubCategoryProductListScreen(
+                    Get.to(
+                      () => CultureSubCategoryProductListScreen(
                         cultureSubCategoryId:
                             getXController.cultureSubCategoryList[index].id!,
-                        getXController: getXController));
+                        getXController: getXController,
+                      ),
+                    );
                   },
                   child: Center(
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         // border: Border.all(color: MyColor.appColor, width: 1)
@@ -164,29 +179,35 @@ class _CultureSubCategoryScreen extends State<CultureSubCategoryScreen> {
                       child: Column(
                         children: [
                           ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(6)),
-                            child: getXController.cultureSubCategoryList[index]
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                            child:
+                                getXController
+                                            .cultureSubCategoryList[index]
                                             .photo !=
                                         null &&
-                                    getXController.cultureSubCategoryList[index]
-                                        .photo!.isNotEmpty
+                                    getXController
+                                        .cultureSubCategoryList[index]
+                                        .photo!
+                                        .isNotEmpty
                                 ? CachedNetworkImage(
                                     imageUrl: getXController
-                                        .cultureSubCategoryList[index].photo!,
+                                        .cultureSubCategoryList[index]
+                                        .photo!,
                                     fit: BoxFit.cover,
                                     height: Get.height * 0.15,
                                     width: double.infinity,
                                     placeholder: (context, url) =>
                                         Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(
-                                        height: Get.height * 0.15,
-                                        width: double.infinity,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            height: Get.height * 0.15,
+                                            width: double.infinity,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                     errorWidget: (context, url, error) => Image(
                                       image: noImage,
                                       height: Get.height * 0.15,
@@ -201,43 +222,45 @@ class _CultureSubCategoryScreen extends State<CultureSubCategoryScreen> {
                                     fit: BoxFit.cover,
                                   ),
                           ),
-                          const SizedBox(
-                            height: 5.0,
-                          ),
+                          const SizedBox(height: 5.0),
                           Text(
                             getXController.cultureSubCategoryList[index].name!,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 14,
-                                color: MyColor.color4F4C4C,
-                                fontFamily: MyFont.roboto,
-                                fontWeight: MyFontWeight.medium),
+                              fontSize: 14,
+                              color: MyColor.color4F4C4C,
+                              fontFamily: MyFont.roboto,
+                              fontWeight: MyFontWeight.medium,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                )
+                ),
             ],
           ),
           GestureDetector(
             onTap: () {
-              launchUrl(Uri.parse(getXController.cityUrl.value.toString()),
-                  mode: LaunchMode.externalApplication);
+              launchUrl(
+                Uri.parse(getXController.cityUrl.value.toString()),
+                mode: LaunchMode.externalApplication,
+              );
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Text(
                 MyString.viewMore,
                 style: TextStyle(
-                    color: Colors.blue.shade800,
-                    fontSize: width * 0.038,
-                    fontFamily: MyFont.roboto,
-                    fontWeight: MyFontWeight.bold,
-                    decoration: TextDecoration.underline),
+                  color: Colors.blue.shade800,
+                  fontSize: width * 0.038,
+                  fontFamily: MyFont.roboto,
+                  fontWeight: MyFontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

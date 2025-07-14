@@ -1,4 +1,3 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter/services.dart';
@@ -20,7 +19,7 @@ class CultureHeritageDetailScreen extends StatefulWidget {
   int heritageId;
 
   CultureHeritageDetailScreen({Key? key, required this.heritageId})
-      : super(key: key);
+    : super(key: key);
 
   @override
   State<CultureHeritageDetailScreen> createState() =>
@@ -29,8 +28,9 @@ class CultureHeritageDetailScreen extends StatefulWidget {
 
 class _CultureHeritageDetailScreenState
     extends State<CultureHeritageDetailScreen> {
-  CultureHeritageController getXController =
-      Get.put(CultureHeritageController());
+  CultureHeritageController getXController = Get.put(
+    CultureHeritageController(),
+  );
   CarouselController buttonCarouselController = CarouselController();
   int currentPos = 0;
   late double height;
@@ -53,21 +53,29 @@ class _CultureHeritageDetailScreenState
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColor.appColor,
+          surfaceTintColor: Colors.transparent,
           elevation: 0,
-          leadingWidth: 30,
+          // leadingWidth: 30,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Get.back();
+            },
+          ),
           title: Row(
             children: [
               Expanded(
-                  child: Row(
-                children: [
-                  /*Image(
+                child: Row(
+                  children: [
+                    /*Image(
                         image: backArrow,
                         height: 24.0,
                         width: 24.0,
@@ -75,40 +83,38 @@ class _CultureHeritageDetailScreenState
                       ),
 */
 
-                  // const SizedBox(width: 10,),
-                  Image(
-                    image: upGovLogo,
-                    height: 30.0,
-                    width: 30.0,
-                    color: Colors.white,
-                  ),
+                    // const SizedBox(width: 10,),
+                    Image(
+                      image: upGovLogo,
+                      height: 30.0,
+                      width: 30.0,
+                      color: Colors.white,
+                    ),
 
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      // MyString.drawerTitle
-                      'drawerTitle'.tr,
-                      maxLines: 1,
-                      style: TextStyle(
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        // MyString.drawerTitle
+                        'drawerTitle'.tr,
+                        maxLines: 1,
+                        style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           color: Colors.white,
                           fontFamily: MyFont.roboto,
                           fontWeight: MyFontWeight.regular,
-                          fontSize: 20),
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
               InkWell(
-                  onTap: () {
-                    Get.to(const SearchScreen());
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ))
+                onTap: () {
+                  Get.to(const SearchScreen());
+                },
+                child: const Icon(Icons.search, color: Colors.white),
+              ),
             ],
           ),
         ),
@@ -122,79 +128,84 @@ class _CultureHeritageDetailScreenState
               Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      children: [
-                        Text('Text Size'),
-                        Container(
-                          width: 150,
-                          child: Slider(
-                            value: fontSize.value,
-                            min: 14.0, // Minimum font size
-                            max: 25.0, // Maximum font size
-                            divisions: 30, // Optional, for smooth stepping
-                            label: fontSize.value.toStringAsFixed(1),
-                            onChanged: (value) {
-                              fontSize.value = value;
-                            },
-                          ),
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    children: [
+                      Text('Text Size'),
+                      Container(
+                        width: 150,
+                        child: Slider(
+                          value: fontSize.value,
+                          min: 14.0, // Minimum font size
+                          max: 25.0, // Maximum font size
+                          divisions: 30, // Optional, for smooth stepping
+                          label: fontSize.value.toStringAsFixed(1),
+                          onChanged: (value) {
+                            fontSize.value = value;
+                          },
                         ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Obx(
                 () => Expanded(
-                    child: ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              MyGlobal.checkNullData(
-                                  getXController.heritageDetail.value.name),
-                              style: TextStyle(
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                MyGlobal.checkNullData(
+                                  getXController.heritageDetail.value.name,
+                                ),
+                                style: TextStyle(
                                   color: MyColor.color1F140A,
                                   fontFamily: MyFont.roboto,
                                   fontWeight: MyFontWeight.semiBold,
-                                  fontSize: fontSize.value),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    MyGlobal.checkNullData(
-                                getXController.heritageDetail.value.description)
-                            .isNotEmpty
-                        ? Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Html(
-                              data:
-                                  '${getXController.heritageDetail.value.description}',
-                              onLinkTap: (str, data, element) {
-                                print(str);
-                                launchUrl(Uri.parse(str!),
-                                    mode: LaunchMode.inAppWebView);
-                              },
-                              style: {
-                                "body": Style(
-                                  fontSize: FontSize(fontSize.value),
-                                  color: MyColor.color4F4C4C,
-                                  fontFamily: MyFont.roboto,
-                                  fontWeight: MyFontWeight.regular,
+                                  fontSize: fontSize.value,
                                 ),
-                              },
+                              ),
                             ),
-                          )
-                        : const SizedBox()
-                  ],
-                )),
-              )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      MyGlobal.checkNullData(
+                            getXController.heritageDetail.value.description,
+                          ).isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0,
+                              ),
+                              child: Html(
+                                data:
+                                    '${getXController.heritageDetail.value.description}',
+                                onLinkTap: (str, data, element) {
+                                  print(str);
+                                  launchUrl(
+                                    Uri.parse(str!),
+                                    mode: LaunchMode.inAppWebView,
+                                  );
+                                },
+                                style: {
+                                  "body": Style(
+                                    fontSize: FontSize(fontSize.value),
+                                    color: MyColor.color4F4C4C,
+                                    fontFamily: MyFont.roboto,
+                                    fontWeight: MyFontWeight.regular,
+                                  ),
+                                },
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -221,29 +232,37 @@ class _CultureHeritageDetailScreenState
                   itemBuilder: (context, index, position) {
                     return ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(6)),
-                      child: getXController.heritageGallery[index].photo !=
-                                  null &&
+                      child:
+                          getXController.heritageGallery[index].photo != null &&
                               getXController
-                                  .heritageGallery[index].photo!.isNotEmpty
+                                  .heritageGallery[index]
+                                  .photo!
+                                  .isNotEmpty
                           ? Image.network(
                               getXController.heritageGallery[index].photo!,
                               fit: BoxFit.cover,
                               width: double.infinity,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
+                              loadingBuilder:
+                                  (
+                                    BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress,
+                                  ) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value:
+                                            loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
                             )
                           : Image(
                               image: noImage,
@@ -254,21 +273,22 @@ class _CultureHeritageDetailScreenState
                     );
                   },
                   options: CarouselOptions(
-                      enlargeFactor: 0.2,
-                      viewportFraction: 0.85,
-                      enlargeCenterPage: true,
-                      autoPlay: getXController.heritageGallery.length != 1
-                          ? true
-                          : false,
-                      enableInfiniteScroll:
-                          getXController.heritageGallery.length != 1
-                              ? true
-                              : false,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          currentPos = index;
-                        });
-                      }),
+                    enlargeFactor: 0.2,
+                    viewportFraction: 0.85,
+                    enlargeCenterPage: true,
+                    autoPlay: getXController.heritageGallery.length != 1
+                        ? true
+                        : false,
+                    enableInfiniteScroll:
+                        getXController.heritageGallery.length != 1
+                        ? true
+                        : false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentPos = index;
+                      });
+                    },
+                  ),
                 ),
               ),
             ],
@@ -284,8 +304,10 @@ class _CultureHeritageDetailScreenState
               return Container(
                 width: 15.0,
                 height: 7.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                margin: const EdgeInsets.symmetric(
+                  vertical: 0.0,
+                  horizontal: 0,
+                ),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: currentPos == index
@@ -295,7 +317,7 @@ class _CultureHeritageDetailScreenState
               );
             }).toList(),
           ),
-        )
+        ),
       ],
     );
   }

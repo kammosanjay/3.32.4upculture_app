@@ -91,6 +91,7 @@ class _ArtistEndDrawerState extends State<ArtistEndDrawer>
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Drawer(
+      // backgroundColor: MyColor.appColor,
       child: SizedBox(
         height: height,
         child: SingleChildScrollView(
@@ -355,7 +356,7 @@ class _ArtistEndDrawerState extends State<ArtistEndDrawer>
       child: Container(
           height: height * 0.164,
           width: width,
-          color: Colors.white,
+          color: MyColor.indiaWhite,
           padding: const EdgeInsets.only(left: 13, bottom: 0, top: 40),
           child: Container(
             // height: height * 0.164,

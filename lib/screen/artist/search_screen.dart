@@ -37,72 +37,71 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColor.appColor,
+          surfaceTintColor: Colors.transparent,
           toolbarHeight: 80,
           elevation: 0,
           title: Row(
             children: [
               SizedBox(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child:
+                height: 40,
+                width: MediaQuery.of(context).size.width * 0.7,
+                child:
+                    // Show Previous Searches
+                    TextField(
+                      focusNode: focusNode,
+                      controller: _searchController,
+                      onChanged: (value) {
+                        getXController.search.value = value;
 
-                      // Show Previous Searches
-
-                      TextField(
-                    focusNode: focusNode,
-                    controller: _searchController,
-                    onChanged: (value) {
-                      getXController.search.value = value;
-
-                      if (value.isNotEmpty) {
-                        getXController.searchData();
-                      } else {
-                        getXController.datas.value = [];
-                        print("you doesnot entered value");
-                      }
-                    },
-                    cursorColor: Colors.black,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'Search or ask something',
-                      hintStyle: const TextStyle(
-                        color: Colors.black45,
-                      ),
-                      contentPadding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 0, bottom: 0),
-                      fillColor: Colors.white,
-                      filled: true,
-                      suffixIcon: GestureDetector(
+                        if (value.isNotEmpty) {
+                          getXController.searchData();
+                        } else {
+                          getXController.datas.value = [];
+                          print("you doesnot entered value");
+                        }
+                      },
+                      cursorColor: Colors.black,
+                      style: const TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        hintText: 'Search or ask something',
+                        hintStyle: const TextStyle(color: Colors.black45),
+                        contentPadding: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                          top: 0,
+                          bottom: 0,
+                        ),
+                        fillColor: Colors.white,
+                        filled: true,
+                        suffixIcon: GestureDetector(
                           child: Container(
-                              child: const Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 24,
-                      ))),
-                      // hintStyle: const TextStyle(color: Colors.white),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
+                            child: const Icon(
+                              Icons.search,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
                         ),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
+                        // hintStyle: const TextStyle(color: Colors.white),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
                         ),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
                         ),
                       ),
                     ),
-                  ))
+              ),
             ],
           ),
         ),
@@ -110,10 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: const EdgeInsets.all(8.0),
           child: ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
-              return const Divider(
-                height: 1,
-                color: Colors.grey,
-              );
+              return const Divider(height: 1, color: Colors.grey);
             },
             shrinkWrap: true,
             itemCount: getXController.datas.length,
@@ -124,87 +120,114 @@ class _SearchScreenState extends State<SearchScreen> {
                   if (type == "category/sub_cagory") {
                     print("testing1");
                     _previousSearches.add(getXController.datas[index].name!);
-                    Get.to(() => CategoryDetailScreen(
+                    Get.to(
+                      () => CategoryDetailScreen(
                         index: -1,
                         fromSearch: true,
                         id: getXController.datas[index].id ?? 0,
-                        getXController: CategoryController()));
+                        getXController: CategoryController(),
+                      ),
+                    );
                   } else if (type == "city") {
                     print("testing2");
                     _previousSearches.add(getXController.datas[index].name!);
-                    Get.to(() => CultureSubCategoryScreen(
+                    Get.to(
+                      () => CultureSubCategoryScreen(
                         cultureCategoryName: getXController.datas[index].name!,
                         cultureCategoryId: getXController.datas[index].id!,
-                        getXController: CategoryController()));
+                        getXController: CategoryController(),
+                      ),
+                    );
                   } else if (type == "event/sub_event") {
                     print("testing3");
                     _previousSearches.add(getXController.datas[index].name!);
 
-                    Get.to(() => EventDetailScreen(
-                          categoryName: "",
-                          id: getXController.datas[index].id!,
-                          forSearch: true,
-                        ));
+                    Get.to(
+                      () => EventDetailScreen(
+                        categoryName: "",
+                        id: getXController.datas[index].id!,
+                        forSearch: true,
+                      ),
+                    );
                   } else if (type == "external_link") {
                     print("testing4");
                     _previousSearches.add(getXController.datas[index].name!);
-                    Get.to(() => ExternalDetailScreen(
-                        externalId: getXController.datas[index].id!));
+                    Get.to(
+                      () => ExternalDetailScreen(
+                        externalId: getXController.datas[index].id!,
+                      ),
+                    );
                   } else if (type == "category") {
                     print("testing5");
                     _previousSearches.add(getXController.datas[index].name!);
-                    Get.to(() => SubCategoryScreen(
+                    Get.to(
+                      () => SubCategoryScreen(
                         categoryName: getXController.datas[index].name!,
-                        id: getXController.datas[index].id!));
+                        id: getXController.datas[index].id!,
+                      ),
+                    );
                   } else if (type == "city/category") {
                     print("testing6");
                     _previousSearches.add(getXController.datas[index].name!);
-                    Get.to(() => CultureSubCategoryProductListScreen(
+                    Get.to(
+                      () => CultureSubCategoryProductListScreen(
                         cultureSubCategoryId: getXController.datas[index].id!,
-                        getXController: CategoryController()));
+                        getXController: CategoryController(),
+                      ),
+                    );
                   } else if (type == "city/category/subcategory") {
                     print("testing7");
                     _previousSearches.add(getXController.datas[index].name!);
-                    Get.to(() => CultureSubCategoryProductListScreen(
+                    Get.to(
+                      () => CultureSubCategoryProductListScreen(
                         cultureSubCategoryId: getXController.datas[index].id!,
                         forSearch: true,
                         sliderUrl: getXController.datas[index].slider_url ?? "",
-                        getXController: CategoryController()));
+                        getXController: CategoryController(),
+                      ),
+                    );
                   } else if (type == "culture_program") {
                     print("testing8");
                     _previousSearches.add(getXController.datas[index].name!);
 
-                    Get.to(() => CultureDetailsScreen(
-                          id: getXController.datas[index].id!,
-                        ));
+                    Get.to(
+                      () => CultureDetailsScreen(
+                        id: getXController.datas[index].id!,
+                      ),
+                    );
                   } else if (type == "culture_heritage") {
                     print("testing9");
                     _previousSearches.add(getXController.datas[index].name!);
-                    Get.to(() => CultureHeritageDetailScreen(
-                          heritageId: getXController.datas[index].id!,
-                        ));
+                    Get.to(
+                      () => CultureHeritageDetailScreen(
+                        heritageId: getXController.datas[index].id!,
+                      ),
+                    );
                   }
                 },
-                child: Column(children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    Expanded(
-                        child: Text(
-                      getXController.datas[index].name!,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: MyColor.color4F4C4C,
-                          fontFamily: MyFont.roboto,
-                          fontWeight: MyFontWeight.medium),
-                    ))
-                  ]),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                ]),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            getXController.datas[index].name!,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: MyColor.color4F4C4C,
+                              fontFamily: MyFont.roboto,
+                              fontWeight: MyFontWeight.medium,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                  ],
+                ),
               );
             },
           ),

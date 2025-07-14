@@ -20,13 +20,13 @@ class CultureSubCategoryProductListScreen extends StatefulWidget {
   CategoryController getXController;
   bool forSearch;
   String sliderUrl = "";
-  CultureSubCategoryProductListScreen(
-      {Key? key,
-      required this.cultureSubCategoryId,
-      this.forSearch = false,
-      required this.getXController,
-      this.sliderUrl = ""})
-      : super(key: key);
+  CultureSubCategoryProductListScreen({
+    Key? key,
+    required this.cultureSubCategoryId,
+    this.forSearch = false,
+    required this.getXController,
+    this.sliderUrl = "",
+  }) : super(key: key);
 
   @override
   State<CultureSubCategoryProductListScreen> createState() =>
@@ -49,11 +49,13 @@ class _CultureSubCategoryProductListScreenState
     Future.delayed(const Duration(), () {
       if (widget.forSearch) {
         getXController.getCultureSubCategorySliderItemDetail(
-            cultureSubCategoryId: widget.cultureSubCategoryId,
-            sliderUrl: widget.sliderUrl);
+          cultureSubCategoryId: widget.cultureSubCategoryId,
+          sliderUrl: widget.sliderUrl,
+        );
       } else {
         getXController.getCultureSubCategorySlider(
-            cultureSubCategoryId: widget.cultureSubCategoryId);
+          cultureSubCategoryId: widget.cultureSubCategoryId,
+        );
       }
     });
   }
@@ -63,20 +65,28 @@ class _CultureSubCategoryProductListScreenState
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: MyColor.appColor,
+          surfaceTintColor: Colors.transparent,
           leadingWidth: 30,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Get.back();
+            },
+          ),
           title: Row(
             children: [
               Expanded(
-                  child: Row(
-                children: [
-                  /*Image(
+                child: Row(
+                  children: [
+                    /*Image(
                         image: backArrow,
                         height: 24.0,
                         width: 24.0,
@@ -84,40 +94,38 @@ class _CultureSubCategoryProductListScreenState
                       ),
 */
 
-                  // const SizedBox(width: 10,),
-                  Image(
-                    image: upGovLogo,
-                    height: 30.0,
-                    width: 30.0,
-                    color: Colors.white,
-                  ),
+                    // const SizedBox(width: 10,),
+                    Image(
+                      image: upGovLogo,
+                      height: 30.0,
+                      width: 30.0,
+                      color: Colors.white,
+                    ),
 
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      // MyString.drawerTitle
-                      'drawerTitle'.tr,
-                      maxLines: 1,
-                      style: TextStyle(
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        // MyString.drawerTitle
+                        'drawerTitle'.tr,
+                        maxLines: 1,
+                        style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           color: Colors.white,
                           fontFamily: MyFont.roboto,
                           fontWeight: MyFontWeight.regular,
-                          fontSize: 20),
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
               InkWell(
-                  onTap: () {
-                    Get.to(const SearchScreen());
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ))
+                onTap: () {
+                  Get.to(const SearchScreen());
+                },
+                child: const Icon(Icons.search, color: Colors.white),
+              ),
             ],
           ),
         ),
@@ -131,25 +139,26 @@ class _CultureSubCategoryProductListScreenState
               Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      children: [
-                        Text('Text Size'),
-                        Container(
-                          width: 150,
-                          child: Slider(
-                            value: fontSize.value,
-                            min: 14.0, // Minimum font size
-                            max: 25.0, // Maximum font size
-                            divisions: 30, // Optional, for smooth stepping
-                            label: fontSize.value.toStringAsFixed(1),
-                            onChanged: (value) {
-                              fontSize.value = value;
-                            },
-                          ),
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    children: [
+                      Text('Text Size'),
+                      Container(
+                        width: 150,
+                        child: Slider(
+                          value: fontSize.value,
+                          min: 14.0, // Minimum font size
+                          max: 25.0, // Maximum font size
+                          divisions: 30, // Optional, for smooth stepping
+                          label: fontSize.value.toStringAsFixed(1),
+                          onChanged: (value) {
+                            fontSize.value = value;
+                          },
                         ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               getXController.cultureSubCategoryProductList.isNotEmpty
                   ? productList()
@@ -182,9 +191,11 @@ class _CultureSubCategoryProductListScreenState
                         getXController.cultureSubCategorySliderList.length,
                     itemBuilder: (context, index, position) {
                       return ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(6)),
-                        child: getXController
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(6),
+                        ),
+                        child:
+                            getXController
                                         .cultureSubCategorySliderList[index]
                                         .photo !=
                                     null &&
@@ -194,26 +205,31 @@ class _CultureSubCategoryProductListScreenState
                                     .isNotEmpty
                             ? Image.network(
                                 getXController
-                                    .cultureSubCategorySliderList[index].photo!,
+                                    .cultureSubCategorySliderList[index]
+                                    .photo!,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value:
-                                          loadingProgress.expectedTotalBytes !=
+                                loadingBuilder:
+                                    (
+                                      BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress,
+                                    ) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value:
+                                              loadingProgress
+                                                      .expectedTotalBytes !=
                                                   null
                                               ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
                                               : null,
-                                    ),
-                                  );
-                                },
+                                        ),
+                                      );
+                                    },
                               )
                             : Image(
                                 image: noImage,
@@ -224,24 +240,25 @@ class _CultureSubCategoryProductListScreenState
                       );
                     },
                     options: CarouselOptions(
-                        enlargeFactor: 0.2,
-                        viewportFraction: 0.85,
-                        enlargeCenterPage: true,
-                        autoPlay: getXController
-                                    .cultureSubCategorySliderList.length !=
-                                1
-                            ? true
-                            : false,
-                        enableInfiniteScroll: getXController
-                                    .cultureSubCategorySliderList.length !=
-                                1
-                            ? true
-                            : false,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            currentPos = index;
-                          });
-                        }),
+                      enlargeFactor: 0.2,
+                      viewportFraction: 0.85,
+                      enlargeCenterPage: true,
+                      autoPlay:
+                          getXController.cultureSubCategorySliderList.length !=
+                              1
+                          ? true
+                          : false,
+                      enableInfiniteScroll:
+                          getXController.cultureSubCategorySliderList.length !=
+                              1
+                          ? true
+                          : false,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          currentPos = index;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -253,13 +270,16 @@ class _CultureSubCategoryProductListScreenState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: getXController.cultureSubCategorySliderList.map((url) {
-                int index =
-                    getXController.cultureSubCategorySliderList.indexOf(url);
+                int index = getXController.cultureSubCategorySliderList.indexOf(
+                  url,
+                );
                 return Container(
                   width: 15.0,
                   height: 7.0,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 0.0,
+                    horizontal: 0,
+                  ),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: currentPos == index
@@ -269,7 +289,7 @@ class _CultureSubCategoryProductListScreenState
                 );
               }).toList(),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -289,8 +309,9 @@ class _CultureSubCategoryProductListScreenState
             child: Card(
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white70),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white70,
+                ),
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -311,13 +332,12 @@ class _CultureSubCategoryProductListScreenState
                          ],
                        ),
 */
-
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(6)),
-                      child: getXController.cultureSubCategoryProductList[index]
+                      child:
+                          getXController
+                                      .cultureSubCategoryProductList[index]
                                       .photo !=
                                   null &&
                               getXController
@@ -326,24 +346,31 @@ class _CultureSubCategoryProductListScreenState
                                   .isNotEmpty
                           ? Image.network(
                               getXController
-                                  .cultureSubCategoryProductList[index].photo!,
+                                  .cultureSubCategoryProductList[index]
+                                  .photo!,
                               fit: BoxFit.cover,
                               width: double.infinity,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
+                              loadingBuilder:
+                                  (
+                                    BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress,
+                                  ) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value:
+                                            loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
                             )
                           : Image(
                               image: noImage,
@@ -352,9 +379,7 @@ class _CultureSubCategoryProductListScreenState
                               fit: BoxFit.fill,
                             ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
 
                     /*Text(
                          MyGlobal.checkNullData(getXController.cultureSubCategoryProductList[index].description),
@@ -366,21 +391,24 @@ class _CultureSubCategoryProductListScreenState
                              fontSize: 14
                          ),
                        )*/
-
-                    MyGlobal.checkNullData(getXController
-                                .cultureSubCategoryProductList[index]
-                                .description)
-                            .isNotEmpty
+                    MyGlobal.checkNullData(
+                          getXController
+                              .cultureSubCategoryProductList[index]
+                              .description,
+                        ).isNotEmpty
                         ? Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 0.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 0.0,
+                            ),
                             child: Html(
                               data:
                                   '${getXController.cultureSubCategoryProductList[index].description}',
                               onLinkTap: (str, data, element) {
                                 print(str);
-                                launchUrl(Uri.parse(str!),
-                                    mode: LaunchMode.inAppWebView);
+                                launchUrl(
+                                  Uri.parse(str!),
+                                  mode: LaunchMode.inAppWebView,
+                                );
                               },
                               style: {
                                 "body": Style(
@@ -392,7 +420,7 @@ class _CultureSubCategoryProductListScreenState
                               },
                             ),
                           )
-                        : const SizedBox()
+                        : const SizedBox(),
                   ],
                 ),
               ),

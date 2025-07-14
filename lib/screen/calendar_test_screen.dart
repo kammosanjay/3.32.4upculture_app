@@ -48,23 +48,24 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
   @override
   Widget build(BuildContext context) {
     // return Obx(() {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leadingWidth: 30,
-          automaticallyImplyLeading: false,
-          leading: GestureDetector(
-              onTap: () {
-                eventController.getEventListData(
-                    lang: widget.lang);
-                Get.back();
-              },
-              child: Icon(Icons.arrow_back)),
-          title: Row(
-            children: [
-              Expanded(
-                  child: Row(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: MyColor.appColor,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        leadingWidth: 30,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {
+            eventController.getEventListData(lang: widget.lang);
+            Get.back();
+          },
+          child: Icon(Icons.arrow_back),
+        ),
+        title: Row(
+          children: [
+            Expanded(
+              child: Row(
                 children: [
                   Image(
                     image: upGovLogo,
@@ -72,78 +73,72 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
                     width: 30.0,
                     color: Colors.white,
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child:  Text(
+                    child: Text(
                       // MyString.drawerTitle
                       'drawerTitle'.tr,
                       maxLines: 1,
                       style: TextStyle(
                         overflow: TextOverflow.ellipsis,
-                          color: Colors.white,
-                          fontFamily: MyFont.roboto,
-                          fontWeight: MyFontWeight.regular,
-                          fontSize: 20),
+                        color: Colors.white,
+                        fontFamily: MyFont.roboto,
+                        fontWeight: MyFontWeight.regular,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ],
-              )),
-              InkWell(
-                  onTap: () {
-                    Get.to(const SearchScreen());
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  )),
-              SizedBox(
-                width: 15,
-              ),
-              // Image.asset(
-              //   'assets/images/Vector.png',
-              //   height: 12,
-              //   width: 16,
-              // )
-            ],
-          ),
-        ),
-        body: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            calenderWidget(lang: widget.lang),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Divider(
-                thickness: 1,
-                color: Colors.black.withOpacity(0.4),
               ),
             ),
-            SizedBox(
-              height: 20,
+            InkWell(
+              onTap: () {
+                Get.to(const SearchScreen());
+              },
+              child: const Icon(Icons.search, color: Colors.white),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    // MyString.events,
-                    'events'.tr,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: MyFont.roboto,
-                        fontWeight: MyFontWeight.semiBold,
-                        fontSize: 18),
-                  ),
-                ),
-              ],
-            ),
-            dateWiseEventList()
+            SizedBox(width: 15),
+            // Image.asset(
+            //   'assets/images/Vector.png',
+            //   height: 12,
+            //   width: 16,
+            // )
           ],
         ),
+      ),
+      body: ListView(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          calenderWidget(lang: widget.lang),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              thickness: 1,
+              color: Colors.black.withOpacity(0.4),
+            ),
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text(
+                  // MyString.events,
+                  'events'.tr,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: MyFont.roboto,
+                    fontWeight: MyFontWeight.semiBold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          dateWiseEventList(),
+        ],
       ),
     );
     // });
@@ -191,16 +186,16 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
             return date.weekday == 7
                 ? 'Su'
                 : date.weekday == 1
-                    ? 'Mo'
-                    : date.weekday == 2
-                        ? 'Tu'
-                        : date.weekday == 3
-                            ? 'We'
-                            : date.weekday == 4
-                                ? 'Th'
-                                : date.weekday == 5
-                                    ? 'Fr'
-                                    : 'Sa';
+                ? 'Mo'
+                : date.weekday == 2
+                ? 'Tu'
+                : date.weekday == 3
+                ? 'We'
+                : date.weekday == 4
+                ? 'Th'
+                : date.weekday == 5
+                ? 'Fr'
+                : 'Sa';
           },
           weekdayStyle: TextStyle(
             color: Colors.black,
@@ -264,7 +259,8 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
           ? Container(
               height: height * 0.34,
               width: width,
-              child: Center(child: Text(eventController.errorMessage.value)))
+              child: Center(child: Text(eventController.errorMessage.value)),
+            )
           : Container(
               height: height * 0.4,
               width: width,
@@ -282,9 +278,11 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
                       // color: Colors.purpleAccent,
                       child: GestureDetector(
                         onTap: () {
-                          Get.to(CalenderEventDetailPage(
-                            event: eventController.datewiseEventList[index],
-                          ));
+                          Get.to(
+                            CalenderEventDetailPage(
+                              event: eventController.datewiseEventList[index],
+                            ),
+                          );
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,48 +290,53 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
                             Expanded(
                               flex: 4,
                               child: CachedNetworkImage(
-                                  imageUrl: event.photo.toString(),
-                                  placeholder: (context, url) {
-                                    return Shimmer.fromColors(
-                                        child: Container(
-                                          height: 147,
-                                          width: 127,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(15))),
-                                        ),
-                                        baseColor:
-                                            MyColor.appColor.withOpacity(0.3),
-                                        period: Duration(seconds: 2),
-                                        direction: ShimmerDirection.ltr,
-                                        highlightColor: Colors.white);
-                                  },
-                                  imageBuilder: (context, imageProvider) =>
-                                      ClipRRect(
+                                imageUrl: event.photo.toString(),
+                                placeholder: (context, url) {
+                                  return Shimmer.fromColors(
+                                    child: Container(
+                                      height: 147,
+                                      width: 127,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(15)),
-                                        child: Container(
-                                          height: 147,
-                                          width: 127,
-                                          child: Image(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
+                                          Radius.circular(15),
                                         ),
                                       ),
-                                  errorWidget: (context, url, error) =>
-                                      ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          child: Image(
-                                            image:
-                                                Image.network(event.coverPhoto!)
-                                                    .image,
-                                            height: 147,
-                                            width: 127,
-                                            fit: BoxFit.cover,
-                                          ))),
+                                    ),
+                                    baseColor: MyColor.appColor.withOpacity(
+                                      0.3,
+                                    ),
+                                    period: Duration(seconds: 2),
+                                    direction: ShimmerDirection.ltr,
+                                    highlightColor: Colors.white,
+                                  );
+                                },
+                                imageBuilder: (context, imageProvider) =>
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(15),
+                                      ),
+                                      child: Container(
+                                        height: 147,
+                                        width: 127,
+                                        child: Image(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                errorWidget: (context, url, error) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image(
+                                    image: Image.network(
+                                      event.coverPhoto!,
+                                    ).image,
+                                    height: 147,
+                                    width: 127,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                             ),
                             SizedBox(height: 8),
 
@@ -344,7 +347,9 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
                                 width: 127,
                                 margin: EdgeInsets.symmetric(horizontal: 0),
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 10),
+                                  vertical: 4,
+                                  horizontal: 10,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.orange,
                                   borderRadius: BorderRadius.circular(8),
@@ -385,8 +390,9 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
                             Expanded(
                               flex: 2,
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 0,
+                                ),
                                 child: SizedBox(
                                   // height: 100,
                                   width: 127,
@@ -403,7 +409,7 @@ class _CalendarTestScreenState extends State<CalendarTestScreen> {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
