@@ -3,7 +3,7 @@ class ApiConstants {
 
   //new base_url https://upcultureapp.artistdirectoryupculture.com
   static String baseUrl =
-      'https://upcultureapp.artistdirectoryupculture.com/api';
+      'https://upcultureapp.softgentech.com/api';
 
   static String getLanguageApi = '$baseUrl/language-dropdown';
   static String resendOtpApi = '$baseUrl/resend-otp';

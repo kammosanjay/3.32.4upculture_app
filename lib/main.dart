@@ -8,12 +8,13 @@ import 'package:upculture/resources/my_string.dart';
 import 'package:upculture/screen/artist/select_language.dart';
 import 'package:upculture/screen/common/select_role_screen.dart';
 import 'package:upculture/screen/common/splash_screen.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-// to save the locale in shared preference
+  // to save the locale in shared preference
 
   // final locale = await MySharedPreference().getSavedLocale();
   // print("startingLang--->" + locale.languageCode);
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
   MyApp({super.key, required this.locale});
 
   Future<void> _firebaseMessagingOnBackgroundMessage(
-      RemoteMessage message) async {
+    RemoteMessage message,
+  ) async {
     print("Handling a background message: ${message.messageId}");
   }
 
@@ -63,9 +65,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: colorCustom,
         // brightness: Brightness.light,
         appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.white),
           systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: MyColor.appColor,
             statusBarIconBrightness: Brightness.light,
+
             statusBarBrightness: Brightness.light,
           ),
         ),

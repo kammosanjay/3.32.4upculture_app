@@ -14,6 +14,8 @@ import 'package:upculture/screen/common/lngCodee.dart';
 import 'package:upculture/screen/common/select_role_screen.dart';
 import 'package:upculture/screen/common/splashanimation.dart';
 import 'package:upculture/screen/common/splashscreenone.dart';
+import 'package:in_app_update/in_app_update.dart';
+import 'package:upgrader/upgrader.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -23,17 +25,37 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  ArtistOnboardingController getXController =
-      Get.put(ArtistOnboardingController());
+  ArtistOnboardingController getXController = Get.put(
+    ArtistOnboardingController(),
+  );
   late double height;
   late double width;
 
   final _controller = PageController(initialPage: 0);
+  AppUpdateInfo? _updateInfo;
+
+  Future<void> checkForUpdate() async {
+    try {
+      _updateInfo = await InAppUpdate.checkForUpdate();
+
+      if (_updateInfo?.updateAvailability ==
+          UpdateAvailability.updateAvailable) {
+        // You can choose: Immediate or Flexible
+        // InAppUpdate.performImmediateUpdate(); // Forcing immediate update
+        // Or for flexible:
+        InAppUpdate.startFlexibleUpdate().then(
+          (_) => InAppUpdate.completeFlexibleUpdate(),
+        );
+      }
+    } catch (e) {
+      debugPrint('Update check failed: $e');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
+    checkForUpdate();
     // Initialize shared preferences
     MySharedPreference.getInstance();
 
@@ -54,9 +76,9 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     handleSession();
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
   }
 
   @override
@@ -64,9 +86,9 @@ class _SplashScreenState extends State<SplashScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
     return Scaffold(
       body: PageView(
         controller: _controller,
@@ -83,26 +105,41 @@ class _SplashScreenState extends State<SplashScreen> {
   ///
   void handleSession() {
     // print("testing===>${MySharedPreference.getInt(KeyConstants.keyUserId)}");
-    Future.delayed(const Duration(seconds: 2), () {
-      // if (MySharedPreference.getBool(KeyConstants.keyIsLogin) != null &&
-      //     MySharedPreference.getBool(KeyConstants.keyIsLogin)) {
-      //   if (MySharedPreference.getInt(KeyConstants.keyUserId) != null &&
-      //       MySharedPreference.getInt(KeyConstants.keyUserId) != 0) {
-      //     Get.offAll(() => ArtistHomeScreen(
-      //           callFrom: 'Artist',
-      //           lang: MyLangCode.langcode,
-      //         ));
+    Future.delayed(
+      const Duration(seconds: 2),
+      () {
+        // if (MySharedPreference.getBool(KeyConstants.keyIsLogin) != null &&
+        //     MySharedPreference.getBool(KeyConstants.keyIsLogin)) {
+        //   if (MySharedPreference.getInt(KeyConstants.keyUserId) != null &&
+        //       MySharedPreference.getInt(KeyConstants.keyUserId) != 0) {
+        //     Get.offAll(() => ArtistHomeScreen(
+        //           callFrom: 'Artist',
+        //           lang: MyLangCode.langcode,
+        //         ));
 
-      //         print("artishomescreelang->"+MyLangCode.langcode.toString());
-      //   }
-      // } else {
+        //         print("artishomescreelang->"+MyLangCode.langcode.toString());
+        //   }
+        // } else {
 
-      Timer(Duration(seconds: 3), () {
-        // Get.offAll(() => const SelectRoleScreen(),transition:Transition.zoom);
-        Get.offAll(() => SelectLangWithoutLogin(), transition: Transition.zoom);
-      });
-    }
-        // }
-        );
+        Timer(Duration(seconds: 5), () {
+          // Get.offAll(() => const SelectRoleScreen(),transition:Transition.zoom);
+          Get.offAll(
+            () => UpgradeAlert(
+              upgrader: Upgrader(
+               // debugDisplayOnce: true
+              ),
+              showIgnore: true,
+              showLater: true,
+              showReleaseNotes: true,
+              barrierDismissible: true,
+
+              child: SelectLangWithoutLogin(),
+            ),
+            transition: Transition.zoom,
+          );
+        });
+      },
+      // }
+    );
   }
 }

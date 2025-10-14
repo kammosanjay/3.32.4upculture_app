@@ -44,68 +44,84 @@ class _SelectLangWithoutLoginState extends State<SelectLangWithoutLogin>
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // SequentialSlidingFooter(),
-          PanoramaView(),
+          SequentialSlidingFooter(),
+          // PanoramaView(),
 
-          // Column(
-          //   children: [
-          //     Expanded(
-          //       child: Panorama(
-          //         child: Image.asset(
-          //           panoImages[currentIndex],
-          //           fit: BoxFit.cover,
-          //         ),
-          //         animSpeed: 2,
-          //         maxZoom: 2,
-          //         minZoom: 1,
-          //       ),
-          //     ),
-          //     Row(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: List.generate(panoImages.length, (index) {
-          //         return IconButton(
-          //           icon: Icon(
-          //             Icons.circle,
-          //             color: index == currentIndex ? Colors.blue : Colors.grey,
-          //           ),
-          //           onPressed: () {
-          //             setState(() {
-          //               currentIndex = index;
-          //             });
-          //           },
-          //         );
-          //       }),
-          //     ),
-          //   ],
-          // ),
+          Column(
+            children: [
+              // Expanded(
+              //   child: Panorama(
+              //     child: Image.asset(
+              //       panoImages[currentIndex],
+              //       fit: BoxFit.cover,
+              //     ),
+              //     animSpeed: 2,
+              //     maxZoom: 2,
+              //     minZoom: 1,
+              //   ),
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: List.generate(panoImages.length, (index) {
+              //     return IconButton(
+              //       icon: Icon(
+              //         Icons.circle,
+              //         color: index == currentIndex ? Colors.blue : Colors.grey,
+              //       ),
+              //       onPressed: () {
+              //         setState(() {
+              //           currentIndex = index;
+              //         });
+              //       },
+              //     );
+              //   }),
+              // ),
+            ],
+          ),
           Positioned(
-            top: 40,
+            top: 10,
             left: 10,
             right: 10,
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/splash/splash_img1.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              // decoration: BoxDecoration(
+              //   image: DecorationImage(
+              //     image: AssetImage('assets/splash/splash_img1.png'),
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
               child: Padding(
                 padding: EdgeInsets.only(top: height * 0.3),
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Card(
-                      shape: CircleBorder(),
-                      elevation: 10,
+                    Draggable(
+                      data: 'UP Logo',
+                      feedback: Material(
+                        color: Colors.transparent,
+                        child: Image.asset(
+                          "assets/images/up_gov_logo.png",
+                          color: MyColor.appColor,
+                          height: 100,
+                        ),
+                      ),
+                      childWhenDragging: Opacity(
+                        opacity: 0.1,
+                        child: Image.asset(
+                          "assets/images/up_gov_logo.png",
+                          color: MyColor.appColor,
+                          height: 100,
+                        ),
+                      ),
                       child: Image.asset(
-                        "assets/images/up_gov_logo.png",
+                        "assets/images/up_gov_logo.png",color: MyColor.appColor,
                         height: 100,
                       ),
                     ),
+
                     SizedBox(height: 20),
                     // Container(
                     //   padding: EdgeInsets.only(top: 100),

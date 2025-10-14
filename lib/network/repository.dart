@@ -1092,7 +1092,7 @@ class Repository {
   static Future<searchResponse?> searchDataApi(String search) async {
     searchResponse? response;
     final result = await ApiClient().getEventRequestWithDataSearch(
-        url: "${ApiConstants.searchApi}?search=$search");
+        baseUrl: "${ApiConstants.searchApi}?search=$search");
 
     if (result != null) {
       response = searchResponse.fromJson(result);

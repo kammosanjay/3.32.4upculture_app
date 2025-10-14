@@ -13,9 +13,16 @@ class _PanoramaViewState extends State<PanoramaView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: PanoramaViewer(child: Image.asset('assets/images/ramji.webp')),
+
+        child: PanoramaViewer(
+          zoom: 1.0,
+          animSpeed: 1.0,
+          maxZoom: 5,
+          // sensitivity: 0.5,
+
+          child: Image.asset('assets/images/ramji.webp'),
+        ),
       ),
     );
-    
   }
 }
