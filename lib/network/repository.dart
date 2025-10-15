@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:io' as file;
 
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;

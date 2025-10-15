@@ -5,10 +5,11 @@ import 'package:email_validator/email_validator.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:upculture/screen/common/lngCodee.dart';
 
@@ -4371,7 +4372,7 @@ class RegisterStepSrcState extends State<RegisterStepSrc> {
   }
 
   Future getImageGallery(String imgFor) async {
-    ImagePicker picker = ImagePicker();
+    ImagePicker picker=ImagePicker();
     await picker
         .pickImage(source: ImageSource.gallery, imageQuality: 90)
         .then((xFile) {

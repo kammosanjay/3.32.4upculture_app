@@ -41,7 +41,7 @@ class _ArtistEndDrawerState extends State<ArtistEndDrawer>
   Future<void> openInAppWebViewPolicy() async {
     if (!await launchUrl(
         Uri.parse(
-            "https://upcultureapp.artistdirectoryupculture.com/privacy-policy"),
+            "https://upcultureapp.softgentech.com/privacy-policy"),
         mode: LaunchMode.inAppWebView)) ;
   }
 
